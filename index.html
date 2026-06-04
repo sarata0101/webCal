@@ -75,7 +75,6 @@
             background: var(--sunset-orange);
         }
 
-        /* كروت الخيارات المحدثة */
         .option-card {
             background: #ffffff;
             border: 2px solid #e2e8f0;
@@ -141,7 +140,6 @@
             color: var(--sunset-orange);
         }
 
-        /* العداد المالي */
         .sticky-counter {
             background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%);
             color: #ffffff;
@@ -171,9 +169,99 @@
             display: inline-block;
         }
 
-        .total-price.pop span {
-            transform: scale(1.1);
-            transition: transform 0.1s ease;
+        /* زر الإرسال الفخم */
+        .submit-btn {
+            background: linear-gradient(90deg, var(--sunset-orange) 0%, var(--sunset-red) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(230, 92, 64, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(230, 92, 64, 0.4);
+        }
+
+        /* ستايل شاشة الشكر المنبثقة (Popup Modal) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 18, 43, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 2px solid var(--sunset-orange);
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 50px;
+            color: var(--sunset-glow);
+            margin-bottom: 15px;
+        }
+
+        .modal-box h2 {
+            color: var(--sunset-dark);
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .modal-box p {
+            color: #566573;
+            font-size: 14.5px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .close-modal-btn {
+            background: var(--sunset-dark);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--sunset-orange);
         }
 
         @keyframes fadeInContainer {
@@ -184,180 +272,197 @@
 </head>
 <body>
 
-<div class="calculator-container">
-    <h1>حاسبة تخصيص الميزات والموازنة التقديرية</h1>
-    <div class="subtitle">قم بتخصيص خيارات مشروعك بدقة لرصد التكلفة الفنية الإجمالية فوراً</div>
+<!-- الـ Form مربوطة بـ Formspree لشحن الداتا لإيميلك -->
+<form id="calc-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event)">
+    <div class="calculator-container">
+        <h1>حاسبة تخصيص الميزات والموازنة التقديرية</h1>
+        <div class="subtitle">قم بتخصيص خيارات مشروعك بدقة لرصد التكلفة الفنية الإجمالية فوراً</div>
 
-    <div class="section-title">١. واجهات التصميم وتجربة المستخدم (أساسي)</div>
-    <div class="option-card selected">
-        <div class="input-container">
-            <input type="checkbox" checked disabled>
-            <div class="option-info">
-                <h3>هندسة وتصميم واجهات المستخدم (UI/UX Design)</h3>
-                <p>رسم المخططات الهيكلية، توزيع السكاشن، واختيار الخطوط والألوان كـ Prototype تفاعلي كاملاً.</p>
+        <!-- القسم الأول -->
+        <div class="section-title">١. واجهات التصميم وتجربة المستخدم (أساسي)</div>
+        <div class="option-card selected">
+            <div class="input-container">
+                <input type="checkbox" name="تصميم UI/UX" value="معتمد ومطلوب" checked id="uiux">
+                <div class="option-info">
+                    <h3>هندسة وتصميم واجهات المستخدم (UI/UX Design)</h3>
+                    <p>رسم المخططات الهيكلية، توزيع السكاشن، واختيار الخطوط والألوان كـ Prototype تفاعلي كاملاً.</p>
+                </div>
             </div>
+            <div class="price-tag">6,000 ج.م</div>
         </div>
-        <div class="price-tag">6,000 ج.م</div>
-    </div>
 
-    <div class="section-title">٢. البنية الهيكلية وحجم الصفحات (اختر خياراً واحداً)</div>
-    
-    <div class="option-card selected" onclick="selectRadio('structure-group', 'landing-page', 8000, this)">
-        <div class="input-container">
-            <input type="radio" name="structure-group" id="landing-page" checked value="8000" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>نظام الصفحة الواحدة الممتدة (Landing Page)</h3>
-                <p>تكويد صفحات أساسية (الرئيسية بالعدادات المتحركة - من نحن - اتصل بنا) مدمجة في قالب رأسي واحد مرن وسريع.</p>
+        <!-- القسم الثاني -->
+        <div class="section-title">٢. البنية الهيكلية وحجم الصفحات (اختر خياراً واحداً)</div>
+        
+        <div class="option-card selected" onclick="selectRadio('بنية_الموقع', 'landing-page', this)">
+            <div class="input-container">
+                <input type="radio" name="بنية_الموقع" id="landing-page" checked value="صفحة واحدة طويلة (8,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>نظام الصفحة الواحدة الممتدة (Landing Page)</h3>
+                    <p>تكويد صفحات أساسية (الرئيسية بالعدادات المتحركة - من نحن - اتصل بنا) مدمجة في قالب رأسي واحد مرن وسريع.</p>
+                </div>
             </div>
+            <div class="price-tag">8,000 ج.م</div>
         </div>
-        <div class="price-tag">8,000 ج.م</div>
-    </div>
 
-    <div class="option-card" onclick="selectRadio('structure-group', 'multi-page', 14000, this)">
-        <div class="input-container">
-            <input type="radio" name="structure-group" id="multi-page" value="14000" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>نظام الصفحات المتعددة والمنفصلة تفصيلياً (Multi-Pages)</h3>
-                <p>تطوير 3 صفحات أساسية + 4 صفحات داخلية مستقلة لكل خدمة على حدة مع تفصيل وشرح القطاعات المستهدفة داخلها بالمسطرة.</p>
+        <div class="option-card" onclick="selectRadio('بنية_الموقع', 'multi-page', this)">
+            <div class="input-container">
+                <input type="radio" name="بنية_الموقع" id="multi-page" value="صفحات متعددة ومنفصلة (14,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>نظام الصفحات المتعددة والمنفصلة تفصيلياً (Multi-Pages)</h3>
+                    <p>تطوير 3 صفحات أساسية + 4 صفحات داخلية مستقلة لكل خدمة على حدة مع تفصيل وشرح القطاعات المستهدفة داخلها بالمسطرة.</p>
+                </div>
             </div>
+            <div class="price-tag">14,000 ج.م</div>
         </div>
-        <div class="price-tag">14,000 ج.م</div>
-    </div>
 
-    <div class="section-title">٣. النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
+        <!-- القسم الثالث -->
+        <div class="section-title">٣. النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
 
-    <div class="option-card selected" onclick="selectRadio('lang-group', 'arabic-only', 0, this)">
-        <div class="input-container">
-            <input type="radio" name="lang-group" id="arabic-only" checked value="0" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>الموقع بالغة العربية فقط بالكامل</h3>
-                <p>تأسيس برمجي موحد باتجاه واحد من اليمين إلى اليسار (RTL).</p>
+        <div class="option-card selected" onclick="selectRadio('النظام_اللغوي', 'arabic-only', this)">
+            <div class="input-container">
+                <input type="radio" name="النظام_اللغوي" id="arabic-only" checked value="لغة عربية فقط (0 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>الموقع بالغة العربية فقط بالكامل</h3>
+                    <p>تأسيس برمجة موحد باتجاه واحد من اليمين إلى اليسار (RTL).</p>
+                </div>
             </div>
+            <div class="price-tag">0 ج.م</div>
         </div>
-        <div class="price-tag">0 ج.م</div>
-    </div>
 
-    <div class="option-card" onclick="selectRadio('lang-group', 'bilingual-toggle', 11000, this)">
-        <div class="input-container">
-            <input type="radio" name="lang-group" id="bilingual-toggle" value="11000" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>نظام البرمجة ثنائي اللغة الكامل (عربي / إنجليزي - زر تحويل)</h3>
-                <p>هندسة كود الموقع وتكراره مرتين لقلب الاتجاهات بالكامل برمجياً (RTL / LTR) وضبط أحجام الخطوط والقوائم في النسختين.</p>
+        <div class="option-card" onclick="selectRadio('النظام_اللغوي', 'bilingual-toggle', this)">
+            <div class="input-container">
+                <input type="radio" name="النظام_اللغوي" id="bilingual-toggle" value="ثنائي اللغة عربي وإنجليزي (11,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>نظام البرمجة ثنائي اللغة الكامل (عربي / إنجليزي - زر تحويل)</h3>
+                    <p>هندسة كود الموقع وتكراره مرتين لقلب الاتجاهات بالكامل برمجياً (RTL / LTR) وضبط الخطوط والقوائم.</p>
+                </div>
             </div>
+            <div class="price-tag">+ 11,000 ج.م</div>
         </div>
-        <div class="price-tag">+ 11,000 ج.م</div>
-    </div>
 
-    <div class="section-title">٤. ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
+        <!-- القسم الرابع -->
+        <div class="section-title">٤. ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
 
-    <div class="option-card" onclick="toggleCheckbox('cta', 1500, this)">
-        <div class="input-container">
-            <input type="checkbox" id="cta" value="1500" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>برمجة أدوات التواصل المزدوجة والنماذج الذكية</h3>
-                <p>بناء استمارة تواصل رسمية (Contact Form) تربط برمجياً بالإيميل، مع تفعيل أزرار الاتصال الهاتفي والواتساب بنقرة واحدة.</p>
+        <div class="option-card" onclick="toggleCheckbox('cta', this)">
+            <div class="input-container">
+                <input type="checkbox" name="ميزة_وسائل_التواصل" id="cta" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>برمجة أدوات التواصل المزدوجة والنماذج الذكية</h3>
+                    <p>بناء استمارة تواصل رسمية (Contact Form) تربط بالإيميل، مع تفعيل أزرار الربط اللحظي بالواتساب والاتصال.</p>
+                </div>
             </div>
+            <div class="price-tag">+ 1,500 ج.م</div>
         </div>
-        <div class="price-tag">+ 1,500 ج.م</div>
-    </div>
 
-    <div class="option-card" onclick="toggleCheckbox('content', 1500, this)">
-        <div class="input-container">
-            <input type="checkbox" id="content" value="1500" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>تحرير وصياغة المحتوى النصي تسويقياً وهندسياً</h3>
-                <p>استخراج الداتا الفنية وكتابة المحتوى التسويقي الجاذب المتوافق والمريح لواجهات القراءة الرقمية.</p>
+        <div class="option-card" onclick="toggleCheckbox('content', this)">
+            <div class="input-container">
+                <input type="checkbox" name="ميزة_صياغة_المحتوى" id="content" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>تحرير وصياغة المحتوى النصي تسويقياً وهندسياً</h3>
+                    <p>استخراج الداتا الفنية وكتابة المحتوى التسويقي الجاذب المتوافق والمريح لواجهات القراءة الرقمية.</p>
+                </div>
             </div>
+            <div class="price-tag">+ 1,500 ج.م</div>
         </div>
-        <div class="price-tag">+ 1,500 ج.م</div>
-    </div>
 
-    <div class="option-card" onclick="toggleOptionScalable('scalable', 5000, this)">
-        <div class="input-container">
-            <input type="checkbox" id="scalable" value="5000" onclick="event.stopPropagation(); updatePrice();">
-            <div class="option-info">
-                <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية</h3>
-                <p>بناء كود مرن وقاعدة بيانات (Database Architecture) جاهزة ومستعدة تماماً لاستيعاب "المكتبة الرقمية المرجعية" لاحقاً دون هدم الموقع.</p>
+        <div class="option-card" onclick="toggleCheckbox('scalable', this)">
+            <div class="input-container">
+                <input type="checkbox" name="بنية_المكتبة_المستقبلية" id="scalable" value="مطلوبة (5,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <div class="option-info">
+                    <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية</h3>
+                    <p>بناء كود مرن وقاعدة بيانات (Database Architecture) جاهزة ومستعدة تماماً لاستيعاب "المكتبة الرقمية المرجعية" لاحقاً.</p>
+                </div>
             </div>
+            <div class="price-tag">+ 5,000 ج.م</div>
         </div>
-        <div class="price-tag">+ 5,000 ج.م</div>
-    </div>
 
-    <div class="sticky-counter">
-        <div class="counter-label">إجمالي القيمة التقديرية للمشروع:</div>
-        <div class="total-price" id="price-box"><span id="price-display">14,000</span> ج.م</div>
+        <!-- حقل مخفي لإرسال المجموع النهائي جوه الإيميل -->
+        <input type="hidden" name="إجمالي_التكلفة_النهائية" id="hidden-total" value="14,000 ج.م">
+
+        <!-- العداد المالي المتوهج -->
+        <div class="sticky-counter">
+            <div class="counter-label">إجمالي القيمة التقديرية للمشروع:</div>
+            <div class="total-price" id="price-box"><span id="price-display">14,000</span> ج.م</div>
+        </div>
+
+        <!-- زر الإرسال المحدث -->
+        <button type="submit" class="submit-btn">إرسال واعتماد وثيقة المواصفات</button>
+    </div>
+</form>
+
+<!-- شاشة الشكر الفخمة المنبثقة -->
+<div class="modal-overlay" id="thank-you-modal">
+    <div class="modal-box">
+        <div class="modal-icon">✨</div>
+        <h2>نشكركم على ثقتكم الغالية</h2>
+        <p>تم استلام وثيقة خياراتكم الفنية والميزانية المقترحة بنجاح بالملي.<br>يسعدنا ويشرفنا جداً التعامل معكم، وسيقوم فريق الهندسة بمراجعة الداتا المعتمدة وإرسال الـ Timeline النهائي لسيادتكم فوراً.</p>
+        <button class="close-modal-btn" onclick="closeModal()">تغليق الواجهة</button>
     </div>
 </div>
 
 <script>
-    // تفعيل اختيار الراديو كارد بذكاء وسلاسة
-    function selectRadio(groupName, radioId, price, cardElement) {
+    function selectRadio(groupName, radioId, cardElement) {
         document.getElementById(radioId).checked = true;
-        
-        // إزالة الـ selected من الكروت التابعة لنفس المجموعة
         const radios = document.getElementsByName(groupName);
-        radios.forEach(r => {
-            r.closest('.option-card').classList.remove('selected');
-        });
-        
+        radios.forEach(r => r.closest('.option-card').classList.remove('selected'));
         cardElement.classList.add('selected');
         updatePrice();
     }
 
-    // تفعيل الـ Checkbox كارد للإضافات
-    function toggleCheckbox(id, price, cardElement) {
+    function toggleCheckbox(id, cardElement) {
         const checkbox = document.getElementById(id);
         checkbox.checked = !checkbox.checked;
-        
-        if(checkbox.checked) {
-            cardElement.classList.add('selected');
-        } else {
-            cardElement.classList.remove('selected');
-        }
+        if(checkbox.checked) cardElement.classList.add('selected');
+        else cardElement.classList.remove('selected');
         updatePrice();
     }
-    
-    function toggleOptionScalable(id, price, cardElement) {
-        toggleCheckbox(id, price, cardElement);
-    }
 
-    // الحسبة الإجمالية المتغيرة تلقائياً ومباشرة
     function updatePrice() {
-        let total = 6000; // السعر التأسيسي الثابت لتصميم الـ UI/UX
+        let total = 6000; // السعر التأسيسي لـ UI/UX
         
-        // حساب قيمة الراديو المختار في بنية الموقع
-        const structureOptions = document.getElementsByName('structure-group');
-        for(let i=0; i<structureOptions.length; i++) {
-            if(structureOptions[i].checked) {
-                total += parseInt(structureOptions[i].value);
-            }
-        }
+        if(document.getElementById('landing-page').checked) total += 8000;
+        if(document.getElementById('multi-page').checked) total += 14000;
+        if(document.getElementById('bilingual-toggle').checked) total += 11000;
+        
+        if(document.getElementById('cta').checked) total += 1500;
+        if(document.getElementById('content').checked) total += 1500;
+        if(document.getElementById('scalable').checked) total += 5000;
 
-        // حساب قيمة الراديو المختار في اللغة
-        const langOptions = document.getElementsByName('lang-group');
-        for(let i=0; i<langOptions.length; i++) {
-            if(langOptions[i].checked) {
-                total += parseInt(langOptions[i].value);
-            }
-        }
-
-        // حساب قيم التشيك بوكس الإضافية
-        const checkIds = ['cta', 'content', 'scalable'];
-        checkIds.forEach(id => {
-            const cb = document.getElementById(id);
-            if(cb.checked) {
-                total += parseInt(cb.value);
-            }
-        });
-
-        // تحديث شاشة العداد مع أنيميشن البوب الخفيف
-        const priceDisplay = document.getElementById('price-display');
+        document.getElementById('price-display').innerText = total.toLocaleString('en-US');
+        document.getElementById('hidden-total').value = total.toLocaleString('en-US') + " ج.م";
+        
         const priceBox = document.getElementById('price-box');
-        
-        priceDisplay.innerText = total.toLocaleString('en-US');
-        
         priceBox.classList.add('pop');
         setTimeout(() => { priceBox.classList.remove('pop'); }, 150);
+    }
+
+    // هندسة الإرسال للـ Form وظهور شاشة الشكر الفخمة
+    function handleFormSubmit(event) {
+        event.preventDefault(); // نمنع الصفحة تفتح لينك تاني
+        
+        const form = document.getElementById('calc-form');
+        const data = new FormData(form);
+        
+        // إرسال البيانات لـ Formspree في الخلفية (AJAX)
+        fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                // فتح شاشة الشكر فورا بتأثير الأنميشن
+                document.getElementById('thank-you-modal').classList.add('active');
+                form.reset();
+                updatePrice();
+            } else {
+                alert('عذراً، حدث خطأ أثناء الإرسال. برجاء المحاولة مرة أخرى.');
+            }
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('thank-you-modal').classList.remove('active');
     }
 </script>
 
