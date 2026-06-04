@@ -19,7 +19,7 @@
             background: var(--bg-gradient);
             color: var(--text-color);
             margin: 0;
-            padding: 30px 20px;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,41 +27,43 @@
         }
 
         .calculator-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(30, 18, 43, 0.12);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            box-shadow: 0 25px 60px rgba(30, 18, 43, 0.15);
             width: 100%;
-            max-width: 720px;
-            padding: 40px;
+            max-width: 780px;
+            padding: 45px;
             box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.7);
             animation: fadeInContainer 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
         h1 {
             color: var(--sunset-dark);
-            font-size: 24px;
+            font-size: 26px;
             text-align: center;
             margin-bottom: 8px;
             font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .subtitle {
             text-align: center;
             color: #7f8c8d;
-            font-size: 14px;
-            margin-bottom: 35px;
+            font-size: 14.5px;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
         .section-title {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: bold;
             color: var(--sunset-dark);
             border-bottom: 2px solid rgba(230, 92, 64, 0.15);
-            padding-bottom: 8px;
-            margin-top: 30px;
-            margin-bottom: 18px;
+            padding-bottom: 10px;
+            margin-top: 35px;
+            margin-bottom: 20px;
             position: relative;
         }
 
@@ -70,110 +72,70 @@
             position: absolute;
             bottom: -2px;
             right: 0;
-            width: 50px;
+            width: 65px;
             height: 2px;
             background: var(--sunset-orange);
-        }
-
-        /* ستايل حقول البيانات الجديدة */
-        .input-field-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .input-field-group {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .form-control {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-control label {
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--sunset-dark);
-        }
-
-        .form-control input {
-            padding: 12px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 13.5px;
-            font-family: inherit;
-            transition: border-color 0.2s;
-            outline: none;
-        }
-
-        .form-control input:focus {
-            border-color: var(--sunset-orange);
-            background: #fffdfa;
         }
 
         .option-card {
             background: #ffffff;
             border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 14px;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .option-card:hover {
             border-color: var(--sunset-orange);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(230, 92, 64, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(230, 92, 64, 0.1);
         }
 
         .option-card.selected {
             border-color: var(--sunset-orange);
-            background: linear-gradient(95deg, rgba(254, 245, 242, 0.6) 0%, rgba(255, 255, 255, 1) 100%);
-            box-shadow: 0 8px 20px rgba(230, 92, 64, 0.06);
+            background: linear-gradient(95deg, rgba(254, 245, 242, 0.7) 0%, rgba(255, 255, 255, 1) 100%);
+            box-shadow: 0 10px 25px rgba(230, 92, 64, 0.08), inset 0 0 0 1px rgba(230, 92, 64, 0.05);
         }
 
         .input-container {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            width: 80%;
+            align-items: flex-start;
+            gap: 18px;
+            width: 85%;
         }
 
         input[type="radio"], input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 19px;
+            height: 19px;
             accent-color: var(--sunset-orange);
             cursor: pointer;
             flex-shrink: 0;
+            margin-top: 3px;
         }
 
         .option-info h3 {
             margin: 0;
-            font-size: 15px;
+            font-size: 15.5px;
             color: var(--sunset-dark);
             font-weight: 700;
         }
 
         .option-info p {
-            margin: 5px 0 0 0;
-            font-size: 12.5px;
-            color: #626567;
-            line-height: 1.5;
+            margin: 6px 0 0 0;
+            font-size: 13px;
+            color: #566573;
+            line-height: 1.6;
         }
 
         .price-tag {
             font-weight: 800;
             color: var(--sunset-red);
-            font-size: 14.5px;
+            font-size: 15px;
             white-space: nowrap;
         }
 
@@ -181,109 +143,103 @@
             color: var(--sunset-orange);
         }
 
+        /* ستايل السكشن التفصيلي المطور والمنبثق بأنيميشن انسيابي فخم */
         .dynamic-sub-section {
             max-height: 0;
             overflow: hidden;
             opacity: 0;
-            padding-right: 20px;
-            border-right: 3px dashed rgba(230, 92, 64, 0.25);
+            padding-right: 22px;
+            border-right: 3px dashed rgba(230, 92, 64, 0.3);
             margin-bottom: 0;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, margin 0.4s ease;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, margin 0.5s ease;
         }
 
         .dynamic-sub-section.show {
-            max-height: 1200px;
+            max-height: 2000px; /* مساحة أكبر لتستوعب التفصيل الممل الجديد */
             opacity: 1;
-            margin-bottom: 20px;
-            margin-top: 10px;
+            margin-bottom: 25px;
+            margin-top: 12px;
         }
 
         .sub-card {
             background: #ffffff;
             border: 1px dashed #cbd5e1;
-            border-radius: 10px;
-            padding: 12px 15px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+            animation: slideInSubCard 0.4s ease forwards;
         }
 
-        .sub-card.active {
-            border-color: var(--sunset-orange);
-            background: #fffdfa;
+        @keyframes slideInSubCard {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .sub-card .option-info h4 {
             margin: 0;
-            font-size: 13.5px;
+            font-size: 14px;
             color: var(--sunset-dark);
+            font-weight: 700;
         }
 
+        .sub-card .option-info ul {
+            margin: 5px 0 0 0;
+            padding-right: 18px;
+            font-size: 12px;
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        /* العداد المالي بتوهج الغروب */
         .sticky-counter {
             background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%);
             color: #ffffff;
-            border-radius: 16px;
-            padding: 22px;
-            margin-top: 35px;
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(30, 18, 43, 0.25);
-            border: 1px solid rgba(230, 92, 64, 0.2);
+            box-shadow: 0 15px 35px rgba(30, 18, 43, 0.3);
+            border: 1px solid rgba(230, 92, 64, 0.25);
         }
 
-        .counter-label { font-size: 16px; font-weight: 600; }
-        .total-price { font-size: 28px; font-weight: 800; }
-        .total-price span { color: var(--sunset-glow); text-shadow: 0 0 10px rgba(243, 156, 18, 0.4); display: inline-block; }
+        .counter-label { font-size: 16.5px; font-weight: 600; letter-spacing: 0.3px; }
+        .total-price { font-size: 30px; font-weight: 800; }
+        .total-price span { color: var(--sunset-glow); text-shadow: 0 0 12px rgba(243, 156, 18, 0.5); display: inline-block; }
         .total-price.pop span { transform: scale(1.1); transition: transform 0.1s ease; }
 
         .submit-btn {
             background: linear-gradient(90deg, var(--sunset-orange) 0%, var(--sunset-red) 100%);
-            color: white; border: none; border-radius: 12px; padding: 15px 30px; font-size: 16px; font-weight: bold;
-            cursor: pointer; width: 100%; margin-top: 20px; box-shadow: 0 5px 15px rgba(230, 92, 64, 0.3); transition: all 0.3s ease;
+            color: white; border: none; border-radius: 14px; padding: 16px 32px; font-size: 16.5px; font-weight: bold;
+            cursor: pointer; width: 100%; margin-top: 24px; box-shadow: 0 6px 18px rgba(230, 92, 64, 0.35); transition: all 0.3s ease;
         }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(230, 92, 64, 0.4); }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(230, 92, 64, 0.45); }
 
         /* شاشة الشكر الفصحى والبليغة */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 18, 43, 0.6);
-            backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 18, 43, 0.65);
+            backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 1000;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-box {
-            background: #ffffff; padding: 45px; border-radius: 24px; text-align: center; max-width: 480px; width: 90%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 2px solid var(--sunset-orange); transform: scale(0.8);
+            background: #ffffff; padding: 50px; border-radius: 28px; text-align: center; max-width: 500px; width: 90%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.18); border: 2px solid var(--sunset-orange); transform: scale(0.8);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
-        .modal-icon { font-size: 55px; color: var(--sunset-glow); margin-bottom: 20px; }
+        .modal-icon { font-size: 60px; color: var(--sunset-glow); margin-bottom: 20px; }
         
-        .modal-box h2 { 
-            color: var(--sunset-dark); 
-            margin-top: 0; 
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-        .modal-box p { 
-            color: #4A5568; 
-            font-size: 15px; 
-            line-height: 1.8; 
-            margin-bottom: 30px;
-        }
+        .modal-box h2 { color: var(--sunset-dark); margin-top: 0; font-size: 24px; font-weight: bold; }
+        .modal-box p { color: #4A5568; font-size: 15px; line-height: 1.8; margin-bottom: 32px; }
         .close-modal-btn { 
-            background: var(--sunset-dark); 
-            color: white; 
-            border: none; 
-            padding: 12px 30px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 14.5px;
-            box-shadow: 0 4px 10px rgba(30, 18, 43, 0.15);
-            transition: background 0.2s;
+            background: var(--sunset-dark); color: white; border: none; padding: 12px 35px; border-radius: 12px; 
+            cursor: pointer; font-weight: bold; font-size: 15px; box-shadow: 0 5px 12px rgba(30, 18, 43, 0.2); transition: background 0.2s;
         }
         .close-modal-btn:hover { background: var(--sunset-orange); }
 
@@ -294,55 +250,32 @@
 
 <form id="calc-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event)">
     <div class="calculator-container">
-        <h1>حاسبة تخصيص الميزات والموازنة التفصيلية بالملي</h1>
-        <div class="subtitle">قم بتهيئة المواصفات الفنية لمشروعك لرصد تفكيك التكلفة الهندسية فورياً</div>
-
-        <!-- 🌟 الجزء الجديد: قسم البيانات الاعتبارية المفقود 🌟 -->
-        <div class="section-title">أولاً: البيانات الاعتبارية والتعريفية</div>
-        <div class="input-field-group">
-            <div class="form-control">
-                <label for="client-name">اسم ممثل الجهة الموقرة:</label>
-                <input type="text" id="client-name" name="اسم_العميل" placeholder="الإسم الكريم بالكامل" required>
-            </div>
-            <div class="form-control">
-                <label for="company-name">اسم الشركة / المؤسسة:</label>
-                <input type="text" id="company-name" name="اسم_الشركة" placeholder="شركة اتجاهات القيمة مثلاً" required>
-            </div>
-        </div>
-        <div class="input-field-group">
-            <div class="form-control">
-                <label for="client-phone">رقم تواصل العميل (واتساب):</label>
-                <input type="tel" id="client-phone" name="رقم_التواصل" placeholder="+966xxxxxxxxx" required>
-            </div>
-            <div class="form-control">
-                <label for="client-email">البريد الإلكتروني للجهة:</label>
-                <input type="email" id="client-email" name="البريد_الإلكتروني" placeholder="info@company.com" required>
-            </div>
-        </div>
+        <h1>وثيقة وهندسة احتساب التكاليف البرمجية التفاعلية</h1>
+        <div class="subtitle">قم بتهيئة المواصفات الفنية والنطاق البنيوي للمشروع للوقوف على تفكيك التكلفة الاستراتيجية بالملي</div>
 
         <!-- سكشن 1: التأسيس والتصميم الداخلي -->
-        <div class="section-title">ثانياً: واجهات التصميم وتجربة المستخدم الهندسية (أساسي)</div>
+        <div class="section-title">١. واجهات التصميم وتجربة المستخدم الهندسية (أساسي)</div>
         <div class="option-card selected">
             <div class="input-container">
                 <input type="checkbox" name="تصميم_UI_UX" value="معتمد (6,000 ج.م)" checked id="uiux">
                 <div class="option-info">
                     <h3>هندسة وتصميم واجهات المستخدم المتقدمة (UI/UX Design)</h3>
-                    <p>تشمل: دراسة الهوية، بناء المخططات السلكية (Wireframes)، توزيع السكاشن، وتجهيز نموذج Prototype تفاعلي كامل لاعتماد الألوان والشكل قبل الكود.</p>
+                    <p>تشمل: دراسة الهوية الاستثمارية، بناء المخططات السلكية والدراسة التحليلية لتوزيع العناصر والأرقام والعدادات الإحصائية الكبرى، مع إعداد لوحات الرسوم النموذجية بالكامل (Interactive Prototype) لاعتماد المظهر الهندسي الفخم للألوان والخطوط قبل البدء في الكود.</p>
                 </div>
             </div>
             <div class="price-tag">6,000 ج.م</div>
         </div>
 
         <!-- سكشن 2: الاختيار الجوهري للبنية الهيكلية للموقع -->
-        <div class="section-title">ثالثاً: البنية الهيكلية للموقع والنطاق البرمجي (اختر خياراً واحداً)</div>
+        <div class="section-title">٢. البنية الهيكلية للموقع والنطاق البرمجي (اختر خياراً واحداً)</div>
         
         <!-- خيار الصفحة الواحدة -->
         <div class="option-card selected" onclick="handleStructureChange('landing')">
             <div class="input-container">
                 <input type="radio" name="بنية_الموقع" id="radio-landing" checked value="نظام الصفحة الواحدة الممتدة (8,000 ج.م)">
                 <div class="option-info">
-                    <h3>نظام الصفحة الواحدة الممتدة (Landing Page)</h3>
-                    <p>برمجة صفحات تجميعية (الرئيسية بـ نظام العدادات الإحصائية المتحركة - من نحن - اتصل بنا) مدمجة في قالب رأسي انسيابي ومباشر.</p>
+                    <h3>نظام الصفحة الواحدة الممتدة والانسيابية (Landing Page)</h3>
+                    <p>برمجة وتكويد صفحات تجميعية رصينة (الواجهة الرئيسية التفاعلية، الملخص التعريفي للشركة، وقنوات الاتصال السريع) مدمجة في قالب رأسي موحد ذي استجابة مرنة وسريعة تخدم التصفح المباشر.</p>
                 </div>
             </div>
             <div class="price-tag">8,000 ج.م</div>
@@ -353,51 +286,62 @@
             <div class="input-container">
                 <input type="radio" name="بنية_الموقع" id="radio-multi" value="نظام الصفحات المتعددة والمنفصلة تفصيلياً">
                 <div class="option-info">
-                    <h3>نظام الصفحات المتعددة والمنفصلة تفصيلياً (Multi-Pages)</h3>
-                    <p>تفكيك الموقع إلى صفحات مستقلة كلياً لإبراز الثقل الاستراتيجي والمؤسسي للشركة أمام الجهات الكبرى والبنوك.</p>
+                    <h3>نظام الصفحات المتعددة والمنفصلة كلياً (Multi-Pages System)</h3>
+                    <p>تفكيك وهندسة الموقع إلى صفحات مستقلة وممتدة لإبراز الثقل المؤسسي والحجم الاستراتيجي الضخم للشركة أمام البنوك والجهات الرسمية.</p>
                 </div>
             </div>
             <div class="price-tag">تفرعات تفصيلية بالأسفل 👇</div>
         </div>
 
-        <!-- السكشن الديناميكي المنبثق بالتفصيل الممل في حال اختيار صفحات متعددة -->
+        <!-- 🔻 السكشن الديناميكي المنبثق بالتفصيل الممل والعميق لخدمات وقطاعات الشركة 🔻 -->
         <div class="dynamic-sub-section" id="multi-pages-details">
-            <div style="font-size: 13px; font-weight: bold; color: var(--sunset-orange); margin-bottom: 10px;">التفكيك المالي والتفصيلي لنظام الصفحات المتعددة:</div>
+            <div style="font-size: 13.5px; font-weight: bold; color: var(--sunset-orange); margin-bottom: 12px; letter-spacing: 0.3px;">التفكيك الهيكلي والمالي المفصل لنظام الصفحات المستقلة:</div>
             
-            <div class="sub-card active">
+            <div class="sub-card">
                 <div class="option-info">
-                    <h4>برمجة القوالب والصفحات الثابتة الأساسية</h4>
-                    <p style="margin:2px 0 0 0; font-size:11.5px; color:#7f8c8d;">تشمل تطوير كود (الرئيسية بـ العدادات الحركية - صفحة من نحن - صفحة اتصل بنا بالخريطة التفاعلية).</p>
+                    <h4>برمجة القوالب والصفحات الثابتة الأساسية للشركة</h4>
+                    <p style="margin:4px 0 0 0; font-size:12px; color:#7f8c8d; line-height:1.5;">تشمل تطوير الأكواد البرمجية الفاخرة لـ (الواجهة الرئيسية الكبرى مدعومة بنظام العدادات الإحصائية الحركية للأرقام المليارية وعقود التقييم، صفحة من نحن المخصصة للرؤية والرسالة والقيم الاعتبارية، وصفحة اتصل بنا المدمجة بالخرائط الرقمية التفاعلية).</p>
                 </div>
                 <div class="price-tag">8,000 ج.م</div>
             </div>
 
-            <div class="sub-card active">
+            <div class="sub-card">
                 <div class="option-info">
-                    <h4>تطوير وتكويد 4 صفحات مستقلة مخصصة للخدمات</h4>
-                    <p style="margin:2px 0 0 0; font-size:11.5px; color:#7f8c8d;">إنشاء صفحة منفردة لكل خدمة (التقييم العقاري، دراسات الجدوى، أعلى وأفضل استخدام، الاستشارات) لضمان أرشفة الـ SEO.</p>
+                    <h4>تطوير وتكويد أربع (4) صفحات مستقلة مخصصة للخدمات الكبرى</h4>
+                    <p style="margin:4px 0 0 0; font-size:12px; color:#7f8c8d; line-height:1.5;">تأسيس صفحة منفردة معزولة لكل خدمة من خدمات الشركة لضمان أرشفة بروفيشينال وعالية المتانة على محركات البحث (SEO)، وهي:</p>
+                    <ul style="margin-top:4px;">
+                        <li>صفحة خدمة التقييم العقاري (وتشمل تفصيص أصول العقارات السكنية، التجارية، الاستثمارية، الصناعية، والزراعية).</li>
+                        <li>صفحة خدمة دراسات الجدوى العقارية المتكاملة (المالية والاقتصادية).</li>
+                        <li>صفحة خدمة دراسات أعلى وأفضل استخدام للأصل العقاري لتعظيم القيمة.</li>
+                        <li>صفحة خدمة الاستشارات والتحليلات العقارية ومؤشرات السوق.</li>
+                    </ul>
                 </div>
                 <div class="price-tag">4,000 ج.م</div>
             </div>
 
-            <div class="sub-card active">
+            <div class="sub-card">
                 <div class="option-info">
-                    <h4>هندسة القطاعات المستهدفة وتوزيع حلولها الفنية</h4>
-                    <p style="margin:2px 0 0 0; font-size:11.5px; color:#7f8c8d;">برمجة أقسام تفصيلية مستقلة داخل كل خدمة تشرح الحلول المخصصة لـ (الجهات الحكومية، القطاع الخاص، الأفراد).</p>
+                    <h4>هندسة القطاعات المستهدفة وتوزيع حلولها الفنية التابعة للخدمات</h4>
+                    <p style="margin:4px 0 0 0; font-size:12px; color:#7f8c8d; line-height:1.5;">توزيع وبرمجة أقسام متفرعة دقيقة داخل "كل خدمة من الخدمات الأربعة أعلاه" تستعرض بشكل فني ومفصل الحلول والآليات الموجهة لكل قطاع من القطاعات الثلاثة الكبرى بالشركة:</p>
+                    <ul style="margin-top:4px;">
+                        <li>حلول ومخرجات القطاع الحكومي وشبه الحكومي (المعاينات ونزع الملكية للمنفعة العامة).</li>
+                        <li>حلول وآليات القطاع الخاص، المؤسسات التمويلية، والبنوك المعتمدة.</li>
+                        <li>حلول وأدوات قطاع الأفراد، الشركات التطويرية، والمستثمرين.</li>
+                    </ul>
                 </div>
                 <div class="price-tag">2,000 ج.م</div>
             </div>
         </div>
 
         <!-- سكشن 3: النظام اللغوي -->
-        <div class="section-title">رابعاً: النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
+        <div class="section-title">٣. النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
 
         <div class="option-card selected" onclick="selectRadio('النظام_اللغوي', 'arabic-only', this)">
             <div class="input-container">
                 <input type="radio" name="النظام_اللغوي" id="arabic-only" checked value="لغة عربية فقط (0 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>الموقع بالغة العربية فقط بالكامل</h3>
-                    <p>تأسيس كود برمجي موحد باتجاه واحد من اليمين إلى اليسار (RTL).</p>
+                    <h3>الموقع باللغة العربية فقط بالكامل</h3>
+                    <p>تأسيس كود برمجي موحد ومستقر باتجاه واحد من اليمين إلى اليسار (RTLLayout) يدعم سلاسة القراءة العربية.</p>
                 </div>
             </div>
             <div class="price-tag">0 ج.م</div>
@@ -407,22 +351,22 @@
             <div class="input-container">
                 <input type="radio" name="النظام_اللغوي" id="bilingual-toggle" value="ثنائي اللغة عربي وإنجليزي (11,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>نظام البرمجة ثنائي اللغة الكامل (عربي / إنجليزي - زر تحويل)</h3>
-                    <p>هندسة كود الموقع وتكراره مرتين بالكامل لقلب وتنسيق الاتجاهات (RTL / LTR) لضمان تجربة تصفح عالمية للمستثمر الأجنبي.</p>
+                    <h3>نظام البرمجة ثنائي اللغة الكامل (عربي / إنجليزي - زر تحويل متكامل)</h3>
+                    <p>هندسة وتكويد الموقع بالكامل مرتين منفصلتين لبناء ميزة قلب وتنسيق اتجاهات القوالب والتصميم برمجياً (RTL & LTR) مع ضبط تباعد القوائم، ومرونة الأزرار وأحجام الخطوط بما يتلاءم مع ثقافة المستثمر الأجنبي والجهات الدولية.</p>
                 </div>
             </div>
             <div class="price-tag">+ 11,000 ج.م</div>
         </div>
 
         <!-- سكشن 4: الإضافات الفنية والتأسيس المستقبلي -->
-        <div class="section-title">خامساً: ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
+        <div class="section-title">٤. ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
 
         <div class="option-card" onclick="toggleCheckbox('cta', this)">
             <div class="input-container">
                 <input type="checkbox" name="ميزة_وسائل_التواصل" id="cta" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>برمجة أدوات التواصل المزدوجة والنماذج الاحترافية</h3>
-                    <p>بناء استمارة تواصل رسمية (Contact Form) تجمع بيانات طلب الاستشارة وترسلها للإيميل، مع أزرار الربط اللحظي بالواتساب والاتصال.</p>
+                    <h3>برمجة أدوات التواصل المزدوجة والنماذج الاحترافية المتقدمة</h3>
+                    <p>بناء استمارة تواصل رسمية رقمية (Contact Form) لجمع واستقبال بيانات طلبات الاستشارات والتقييم العقاري وشحنها مباشرة للبريد الإلكتروني للشركة، بالتوازي مع تطوير أزرار الربط اللحظي السريع وتفعيل الاتصال المباشر والواتساب بنقرة واحدة.</p>
                 </div>
             </div>
             <div class="price-tag">+ 1,500 ج.م</div>
@@ -433,7 +377,7 @@
                 <input type="checkbox" name="ميزة_صياغة_المحتوى" id="content" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
                     <h3>تحرير وصياغة المحتوى النصي تسويقياً وهندسياً من قِبلنا</h3>
-                    <p>استخراج الداتا الفنية من بروفايل الشركة، وضبط جودة المصطلحات العقارية والاستثمارية لتناسب الويب الرقمي.</p>
+                    <p>استخراج الداتا الاستثمارية والفنية الكبرى من بروفايل الشركة الحالي، وإعادة تحريرها وصياغة عناوينها الفرعية وجملها الجاذبة للبنوك والمستثمرين لتلائم متطلبات واجهات القراءة الرقمية للمواقع.</p>
                 </div>
             </div>
             <div class="price-tag">+ 1,500 ج.م</div>
@@ -443,8 +387,8 @@
             <div class="input-container">
                 <input type="checkbox" name="بنية_المكتبة_المستقبلية" id="scalable" value="مطلوبة (5,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية للموقع</h3>
-                    <p>بناء كود مرن (Clean & Scalable Code) وقاعدة بيانات مهيأة ومستعدة تماماً لاستيعاب بروجكت "المكتبة الرقمية المرجعية للتقييم" لاحقاً دون هدم الموقع.</p>
+                    <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية للموقع (Scalable Architecture)</h3>
+                    <p>بناء كود برمجي منظم ومستقر (Clean Code) مع هيكلة احترافية لقاعدة البيانات (Database Architecture) ليكون الموقع مهيأ ومستعداً تماماً من الناحية الهندسية لاستيعاب وربط بروجكت "المكتبة الرقمية المرجعية للتقييم العقاري" في المرحلة اللاحقة، دون الحاجة لهدم أو إعادة برمجة كود الموقع الحالي.</p>
                 </div>
             </div>
             <div class="price-tag">+ 5,000 ج.م</div>
@@ -463,7 +407,7 @@
     </div>
 </form>
 
-<!-- 🌟 شاشة الشكر الجديدة باللغة العربية الفصحى البليغة والراقية بالكامل 🌟 -->
+<!-- شاشة الشكر الفصحى والبليغة والراقية بالكامل -->
 <div class="modal-overlay" id="thank-you-modal">
     <div class="modal-box">
         <div class="modal-icon">✨</div>
