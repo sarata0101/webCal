@@ -75,6 +75,47 @@
             background: var(--sunset-orange);
         }
 
+        /* ستايل حقول البيانات الجديدة */
+        .input-field-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .input-field-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-control {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-control label {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--sunset-dark);
+        }
+
+        .form-control input {
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .form-control input:focus {
+            border-color: var(--sunset-orange);
+            background: #fffdfa;
+        }
+
         .option-card {
             background: #ffffff;
             border: 2px solid #e2e8f0;
@@ -140,7 +181,6 @@
             color: var(--sunset-orange);
         }
 
-        /* ستايل السكشن الديناميكي المنبثق بأنيميشن فخم */
         .dynamic-sub-section {
             max-height: 0;
             overflow: hidden;
@@ -152,7 +192,7 @@
         }
 
         .dynamic-sub-section.show {
-            max-height: 1200px; /* مساحة كافية للظهور كاملاً */
+            max-height: 1200px;
             opacity: 1;
             margin-bottom: 20px;
             margin-top: 10px;
@@ -180,7 +220,6 @@
             color: var(--sunset-dark);
         }
 
-        /* العداد المالي والزر */
         .sticky-counter {
             background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%);
             color: #ffffff;
@@ -206,7 +245,7 @@
         }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(230, 92, 64, 0.4); }
 
-        /* شاشة الشكر */
+        /* شاشة الشكر الفصحى والبليغة */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 18, 43, 0.6);
             backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center;
@@ -214,15 +253,38 @@
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-box {
-            background: #ffffff; padding: 40px; border-radius: 24px; text-align: center; max-width: 450px; width: 90%;
+            background: #ffffff; padding: 45px; border-radius: 24px; text-align: center; max-width: 480px; width: 90%;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 2px solid var(--sunset-orange); transform: scale(0.8);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
-        .modal-icon { font-size: 50px; color: var(--sunset-glow); margin-bottom: 15px; }
-        .modal-box h2 { color: var(--sunset-dark); margin-top: 0; font-size: 22px; }
-        .modal-box p { color: #566573; font-size: 14.5px; line-height: 1.6; margin-bottom: 25px; }
-        .close-modal-btn { background: var(--sunset-dark); color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .modal-icon { font-size: 55px; color: var(--sunset-glow); margin-bottom: 20px; }
+        
+        .modal-box h2 { 
+            color: var(--sunset-dark); 
+            margin-top: 0; 
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .modal-box p { 
+            color: #4A5568; 
+            font-size: 15px; 
+            line-height: 1.8; 
+            margin-bottom: 30px;
+        }
+        .close-modal-btn { 
+            background: var(--sunset-dark); 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 14.5px;
+            box-shadow: 0 4px 10px rgba(30, 18, 43, 0.15);
+            transition: background 0.2s;
+        }
         .close-modal-btn:hover { background: var(--sunset-orange); }
 
         @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -230,13 +292,36 @@
 </head>
 <body>
 
-<form id="calc-form" action="https://formspree.io/f/mjgdvpnn" method="POST" onsubmit="handleFormSubmit(event)">
+<form id="calc-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event)">
     <div class="calculator-container">
         <h1>حاسبة تخصيص الميزات والموازنة التفصيلية بالملي</h1>
         <div class="subtitle">قم بتهيئة المواصفات الفنية لمشروعك لرصد تفكيك التكلفة الهندسية فورياً</div>
 
+        <!-- 🌟 الجزء الجديد: قسم البيانات الاعتبارية المفقود 🌟 -->
+        <div class="section-title">أولاً: البيانات الاعتبارية والتعريفية</div>
+        <div class="input-field-group">
+            <div class="form-control">
+                <label for="client-name">اسم ممثل الجهة الموقرة:</label>
+                <input type="text" id="client-name" name="اسم_العميل" placeholder="الإسم الكريم بالكامل" required>
+            </div>
+            <div class="form-control">
+                <label for="company-name">اسم الشركة / المؤسسة:</label>
+                <input type="text" id="company-name" name="اسم_الشركة" placeholder="شركة اتجاهات القيمة مثلاً" required>
+            </div>
+        </div>
+        <div class="input-field-group">
+            <div class="form-control">
+                <label for="client-phone">رقم تواصل العميل (واتساب):</label>
+                <input type="tel" id="client-phone" name="رقم_التواصل" placeholder="+966xxxxxxxxx" required>
+            </div>
+            <div class="form-control">
+                <label for="client-email">البريد الإلكتروني للجهة:</label>
+                <input type="email" id="client-email" name="البريد_الإلكتروني" placeholder="info@company.com" required>
+            </div>
+        </div>
+
         <!-- سكشن 1: التأسيس والتصميم الداخلي -->
-        <div class="section-title">١. واجهات التصميم وتجربة المستخدم الهندسية (أساسي)</div>
+        <div class="section-title">ثانياً: واجهات التصميم وتجربة المستخدم الهندسية (أساسي)</div>
         <div class="option-card selected">
             <div class="input-container">
                 <input type="checkbox" name="تصميم_UI_UX" value="معتمد (6,000 ج.م)" checked id="uiux">
@@ -249,7 +334,7 @@
         </div>
 
         <!-- سكشن 2: الاختيار الجوهري للبنية الهيكلية للموقع -->
-        <div class="section-title">٢. البنية الهيكلية للموقع والنطاق البرمجي (اختر خياراً واحداً)</div>
+        <div class="section-title">ثالثاً: البنية الهيكلية للموقع والنطاق البرمجي (اختر خياراً واحداً)</div>
         
         <!-- خيار الصفحة الواحدة -->
         <div class="option-card selected" onclick="handleStructureChange('landing')">
@@ -275,7 +360,7 @@
             <div class="price-tag">تفرعات تفصيلية بالأسفل 👇</div>
         </div>
 
-        <!-- 🔻 السكشن الديناميكي المنبثق بالتفصيل الممل في حال اختيار صفحات متعددة 🔻 -->
+        <!-- السكشن الديناميكي المنبثق بالتفصيل الممل في حال اختيار صفحات متعددة -->
         <div class="dynamic-sub-section" id="multi-pages-details">
             <div style="font-size: 13px; font-weight: bold; color: var(--sunset-orange); margin-bottom: 10px;">التفكيك المالي والتفصيلي لنظام الصفحات المتعددة:</div>
             
@@ -305,7 +390,7 @@
         </div>
 
         <!-- سكشن 3: النظام اللغوي -->
-        <div class="section-title">٣. النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
+        <div class="section-title">رابعاً: النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
 
         <div class="option-card selected" onclick="selectRadio('النظام_اللغوي', 'arabic-only', this)">
             <div class="input-container">
@@ -330,7 +415,7 @@
         </div>
 
         <!-- سكشن 4: الإضافات الفنية والتأسيس المستقبلي -->
-        <div class="section-title">٤. ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
+        <div class="section-title">خامساً: ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
 
         <div class="option-card" onclick="toggleCheckbox('cta', this)">
             <div class="input-container">
@@ -378,24 +463,22 @@
     </div>
 </form>
 
-<!-- شاشة الشكر الفخمة المنبثقة -->
+<!-- 🌟 شاشة الشكر الجديدة باللغة العربية الفصحى البليغة والراقية بالكامل 🌟 -->
 <div class="modal-overlay" id="thank-you-modal">
     <div class="modal-box">
         <div class="modal-icon">✨</div>
-        <h2>نشكركم على ثقتكم الغالية</h2>
-        <p>تم استلام وثيقة خياراتكم الفنية ومصفوفة الميزانية المعتمدة تفصيلياً بنجاح بالملي.<br>يسعدنا ويشرفنا جداً التعامل معكم، وسيقوم فريق الهندسة بمراجعة الداتا وإرسال خطة الـ Timeline لسيادتكم فوراً.</p>
+        <h2>نُعرب عن خالص تقديرنا لثقتكم الثمينة</h2>
+        <p>تم استلام وثيقة خياراتكم الفنية ومصفوفة الموازنة المعتمدة تفصيلياً بنجاح متناهٍ بالملي.<br><br>إنه لمن دواعي سرورنا وعظيم شرفنا التعاون مع شركتكم الموقرة. سيتولى القسم الهندسي مراجعة كافة البيانات المعتمدة فوراً، لإعداد وإرسال خطة الجدول الزمني (Timeline) النهائي لسيادتكم في أقرب وقت مستطاع.</p>
         <button class="close-modal-btn" onclick="closeModal()">إغلاق الواجهة</button>
     </div>
 </div>
 
 <script>
-    // التحكم في السكشن المنبثق وتحديث الراديو
     function handleStructureChange(type) {
         const subSection = document.getElementById('multi-pages-details');
         const radioLanding = document.getElementById('radio-landing');
         const radioMulti = document.getElementById('radio-multi');
         
-        // جلب كروت الأب وتظبيط الـ Selected ستايل
         const cardLanding = radioLanding.closest('.option-card');
         const cardMulti = radioMulti.closest('.option-card');
 
@@ -403,12 +486,12 @@
             radioLanding.checked = true;
             cardLanding.classList.add('selected');
             cardMulti.classList.remove('selected');
-            subSection.classList.remove('show'); // إخفاء التفصيل الممل
+            subSection.classList.remove('show');
         } else {
             radioMulti.checked = true;
             cardMulti.classList.add('selected');
             cardLanding.classList.remove('selected');
-            subSection.classList.add('show'); // إظهار التفصيل الممل فورا بأنيميشن
+            subSection.classList.add('show');
         }
         updatePrice();
     }
@@ -429,28 +512,23 @@
         updatePrice();
     }
 
-    // الحسبة الديناميكية المفصصة
     function updatePrice() {
-        let total = 6000; // السعر التأسيسي الثابت لـ UI/UX
+        let total = 6000;
         
-        // فحص هيكل الموقع
         if(document.getElementById('radio-landing').checked) {
-            total += 8000; // تمن الصفحة الواحدة
+            total += 8000;
         } else if(document.getElementById('radio-multi').checked) {
-            total += 8000 + 4000 + 2000; // تمن (الأساسية + 4 خدمات + هندسة القطاعات) = 14,000 ج.م
+            total += 8000 + 4000 + 2000;
         }
         
-        // فحص اللغات
         if(document.getElementById('bilingual-toggle').checked) {
             total += 11000;
         }
         
-        // فحص الإضافات
         if(document.getElementById('cta').checked) total += 1500;
         if(document.getElementById('content').checked) total += 1500;
         if(document.getElementById('scalable').checked) total += 5000;
 
-        // تحديث أرقام الشاشة والـ Formspree هيدن فيلد
         document.getElementById('price-display').innerText = total.toLocaleString('en-US');
         document.getElementById('hidden-total').value = total.toLocaleString('en-US') + " ج.م";
         
