@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الحاسبة الذكية لتقدير تكلفة المشاريع الرقمية</title>
+    <style>
+        /* باليت ألوان مستوحاة من سحر الغروب الراقي */
+        :root {
+            --sunset-dark: #1E122B;      /* الموف العميق - لون السماء لحظة الغروب */
+            --sunset-orange: #E65C40;    /* البرتقالي الدافئ الفاخر */
+            --sunset-red: #C0392B;       /* الأحمر الهادي الراسخ */
+            --sunset-glow: #F39C12;      /* التوهج الذهبي الأخير */
+            --bg-gradient: linear-gradient(135deg, #FDFBF7 0%, #EAE5DC 100%);
+            --text-color: #2C3E50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(30, 18, 43, 0.12);
+            width: 100%;
+            max-width: 680px;
+            padding: 40px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            /* أنيميشن ظهور السايت نفسه ونعومته */
+            animation: fadeInContainer 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        h1 {
+            color: var(--sunset-dark);
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--sunset-dark);
+            border-bottom: 2px solid rgba(230, 92, 64, 0.15);
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        /* خط التزيين البرتقالي تحت عنوان القسم */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--sunset-orange);
+        }
+
+        /* كروت الخيارات بأنيميشن راقي */
+        .option-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            /* سلاسة انتقالات الحركات والألوان */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .option-card:hover {
+            border-color: var(--sunset-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(230, 92, 64, 0.08);
+        }
+
+        /* الستايل عند تفعيل الكارت واختياره */
+        .option-card.selected {
+            border-color: var(--sunset-orange);
+            background: linear-gradient(95deg, rgba(254, 245, 242, 0.9) 0%, rgba(255, 255, 255, 1) 100%);
+            box-shadow: 0 8px 20px rgba(230, 92, 64, 0.1);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--sunset-orange);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .option-card:hover input[type="checkbox"] {
+            transform: scale(1.1);
+        }
+
+        .option-info h3 {
+            margin: 0;
+            font-size: 15px;
+            color: var(--sunset-dark);
+            font-weight: 700;
+        }
+
+        .option-info p {
+            margin: 5px 0 0 0;
+            font-size: 12.5px;
+            color: #626567;
+            line-height: 1.5;
+        }
+
+        .price-tag {
+            font-weight: 800;
+            color: var(--sunset-red);
+            font-size: 15px;
+            white-space: nowrap;
+            transition: color 0.3s ease;
+        }
+
+        .option-card.selected .price-tag {
+            color: var(--sunset-orange);
+        }
+
+        /* العداد المالي بتأثير توهج الغروب الشيك */
+        .sticky-counter {
+            background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(30, 18, 43, 0.25);
+            border: 1px solid rgba(230, 92, 64, 0.2);
+            position: relative;
+        }
+
+        .counter-label {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .total-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        /* توهج أصفر مشع للرقم ليعبر عن لحظة بزوغ الشمس/الغروب */
+        .total-price span {
+            color: var(--sunset-glow);
+            text-shadow: 0 0 10px rgba(243, 156, 18, 0.4);
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        /* أنيميشن نبضة خفيفة للرقم عند التحديث */
+        .total-price.pop span {
+            transform: scale(1.15);
+        }
+
+        /* Keyframes لحركات الـ Animations الراوية */
+        @keyframes fadeInContainer {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-container">
+    <h1>هندسة تخصيص الميزات والموازنة التقديرية</h1>
+    <div class="subtitle">قم باختيار الخصائص الفنية والهيكلية المخصصة للمشروع للاطلاع على حساب التكلفة فورياً</div>
+
+    <div class="section-title">١. الواجهات الهيكلية والتأسيس الرقمي (أساسي)</div>
+    
+    <div class="option-card selected">
+        <div class="checkbox-container">
+            <input type="checkbox" checked disabled id="uiux">
+            <div class="option-info">
+                <h3>هندسة وتصميم واجهات المستخدم (UI/UX Design)</h3>
+                <p>بناء المخططات السلكية، توزيع العناصر البصرية، واعتماد التصاميم بالكامل كـ Prototype تفاعلي.</p>
+            </div>
+        </div>
+        <div class="price-tag">6,000 ج.م</div>
+    </div>
+
+    <div class="option-card selected">
+        <div class="checkbox-container">
+            <input type="checkbox" checked disabled id="base-pages">
+            <div class="option-info">
+                <h3>برمجة وتكويد الصفحات التأسيسية</h3>
+                <p>تطوير الأكواد الأساسية لصفحات الواجهة الرئيسية (بالعدادات المتحركة ذكياً) وصفحات التعريف والتواصل الأساسية.</p>
+            </div>
+        </div>
+        <div class="price-tag">8,000 ج.م</div>
+    </div>
+
+    <div class="section-title">٢. الهندسة البنائية وتوسعة النطاق للمشروع</div>
+
+    <div class="option-card" onclick="toggleOption('services', 6000, this)">
+        <div class="checkbox-container">
+            <input type="checkbox" id="services" onclick="event.stopPropagation(); updatePrice();">
+            <div class="option-info">
+                <h3>نظام الصفحات المتفرعة والمنفصلة للخدمات</h3>
+                <p>بناء صفحة مستقلة بالكامل لكل خدمة رئيسية تابعة للشركة مع تفصيل دمج القطاعات وحلولها المستهدفة بداخلها.</p>
+            </div>
+        </div>
+        <div class="price-tag">+ 6,000 ج.م</div>
+    </div>
+
+    <div class="option-card" onclick="toggleOption('cta', 1500, this)">
+        <div class="checkbox-container">
+            <input type="checkbox" id="cta" onclick="event.stopPropagation(); updatePrice();">
+            <div class="option-info">
+                <h3>برمجة أدوات التواصل المزدوجة والنماذج الذكية</h3>
+                <p>تطوير استمارة تواصل رسمية (Contact Form) مربوطة برمجياً بالإيميل، مع بناء أزرار الربط اللحظي بالواتساب والاتصال.</p>
+            </div>
+        </div>
+        <div class="price-tag">+ 1,500 ج.م</div>
+    </div>
+
+    <div class="option-card" onclick="toggleOption('content', 1500, this)">
+        <div class="checkbox-container">
+            <input type="checkbox" id="content" onclick="event.stopPropagation(); updatePrice();">
+            <div class="option-info">
+                <h3>تحرير وصياغة المحتوى النصي هندسياً وتسويقياً</h3>
+                <p>اشتقاق البيانات، ضبط جودة المصطلحات الفنية، وكتابة المحتوى الجاذب المتوافق مع واجهات المستخدم.</p>
+            </div>
+        </div>
+        <div class="price-tag">+ 1,500 ج.م</div>
+    </div>
+
+    <div class="section-title">٣. الأنظمة المستقبلية والخصائص الدولية</div>
+
+    <div class="option-card" onclick="toggleOption('scalable', 5000, this)">
+        <div class="checkbox-container">
+            <input type="checkbox" id="scalable" onclick="event.stopPropagation(); updatePrice();">
+            <div class="option-info">
+                <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية</h3>
+                <p>بناء كود مرن (Scalable Code) وقاعدة بيانات مهيأة ومستعدة بنسبة 100% لاستيعاب أي مكتبات رقمية أو مراجع لاحقة.</p>
+            </div>
+        </div>
+        <div class="price-tag">+ 5,000 ج.م</div>
+    </div>
+
+    <div class="option-card" onclick="toggleOption('bilingual', 11000, this)">
+        <div class="checkbox-container">
+            <input type="checkbox" id="bilingual" onclick="event.stopPropagation(); updatePrice();">
+            <div class="option-info">
+                <h3>نظام البرمجة ثنائي اللغة والمحاذاة المعكوسة (Bilingual)</h3>
+                <p>تكويد وهندسة الموقع مرتين بالكامل لتوفير ميزة قلب اتجاه التصميم بالكامل بزرار موحد (عربي / إنجليزي - RTL & LTR).</p>
+            </div>
+        </div>
+        <div class="price-tag">+ 11,000 ج.م</div>
+    </div>
+
+    <div class="sticky-counter">
+        <div class="counter-label">إجمالي القيمة التقديرية للمشروع:</div>
+        <div class="total-price" id="price-box"><span id="price-display">14,000</span> ج.م</div>
+    </div>
+</div>
+
+<script>
+    // التكلفة الأساسية الثابتة
+    const basePrice = 14000;
+
+    function toggleOption(id, price, cardElement) {
+        const checkbox = document.getElementById(id);
+        checkbox.checked = !checkbox.checked;
+        
+        if(checkbox.checked) {
+            cardElement.classList.add('selected');
+        } else {
+            cardElement.classList.remove('selected');
+        }
+        updatePrice();
+    }
+
+    function updatePrice() {
+        let additionalPrice = 0;
+        
+        const options = [
+            { id: 'services', price: 6000 },
+            { id: 'cta', price: 1500 },
+            { id: 'content', price: 1500 },
+            { id: 'scalable', price: 5000 },
+            { id: 'bilingual', price: 11000 }
+        ];
+
+        options.forEach(opt => {
+            const checkbox = document.getElementById(opt.id);
+            const card = checkbox.closest('.option-card');
+            if (checkbox.checked) {
+                additionalPrice += opt.price;
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        });
+
+        const finalPrice = basePrice + additionalPrice;
+        
+        // تحديث الرقم وتفعيل أنيميشن النبضة (Pop Effect) لتفاعل راقي مع عين العميل
+        const priceDisplay = document.getElementById('price-display');
+        const priceBox = document.getElementById('price-box');
+        
+        priceDisplay.innerText = finalPrice.toLocaleString('en-US');
+        
+        priceBox.classList.add('pop');
+        setTimeout(() => {
+            priceBox.classList.remove('pop');
+        }, 200);
+    }
+</script>
+
+</body>
+</html>
