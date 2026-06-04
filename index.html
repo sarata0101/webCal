@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الحاسبة الذكية المتقدمة لتقدير تكلفة المشاريع</title>
+    <title>المصفوفة التفاعلية لتفكيك وهندسة تكاليف المشاريع الرقمية</title>
     <style>
         :root {
             --sunset-dark: #1E122B;      /* الموف العميق */
@@ -32,7 +32,7 @@
             border-radius: 24px;
             box-shadow: 0 20px 50px rgba(30, 18, 43, 0.12);
             width: 100%;
-            max-width: 700px;
+            max-width: 720px;
             padding: 40px;
             box-sizing: border-box;
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -140,6 +140,47 @@
             color: var(--sunset-orange);
         }
 
+        /* ستايل السكشن الديناميكي المنبثق بأنيميشن فخم */
+        .dynamic-sub-section {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            padding-right: 20px;
+            border-right: 3px dashed rgba(230, 92, 64, 0.25);
+            margin-bottom: 0;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, margin 0.4s ease;
+        }
+
+        .dynamic-sub-section.show {
+            max-height: 1200px; /* مساحة كافية للظهور كاملاً */
+            opacity: 1;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .sub-card {
+            background: #ffffff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sub-card.active {
+            border-color: var(--sunset-orange);
+            background: #fffdfa;
+        }
+
+        .sub-card .option-info h4 {
+            margin: 0;
+            font-size: 13.5px;
+            color: var(--sunset-dark);
+        }
+
+        /* العداد المالي والزر */
         .sticky-counter {
             background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%);
             color: #ffffff;
@@ -153,170 +194,117 @@
             border: 1px solid rgba(230, 92, 64, 0.2);
         }
 
-        .counter-label {
-            font-size: 16px;
-            font-weight: 600;
-        }
+        .counter-label { font-size: 16px; font-weight: 600; }
+        .total-price { font-size: 28px; font-weight: 800; }
+        .total-price span { color: var(--sunset-glow); text-shadow: 0 0 10px rgba(243, 156, 18, 0.4); display: inline-block; }
+        .total-price.pop span { transform: scale(1.1); transition: transform 0.1s ease; }
 
-        .total-price {
-            font-size: 28px;
-            font-weight: 800;
-        }
-
-        .total-price span {
-            color: var(--sunset-glow);
-            text-shadow: 0 0 10px rgba(243, 156, 18, 0.4);
-            display: inline-block;
-        }
-
-        /* زر الإرسال الفخم */
         .submit-btn {
             background: linear-gradient(90deg, var(--sunset-orange) 0%, var(--sunset-red) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 15px 30px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(230, 92, 64, 0.3);
-            transition: all 0.3s ease;
+            color: white; border: none; border-radius: 12px; padding: 15px 30px; font-size: 16px; font-weight: bold;
+            cursor: pointer; width: 100%; margin-top: 20px; box-shadow: 0 5px 15px rgba(230, 92, 64, 0.3); transition: all 0.3s ease;
         }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(230, 92, 64, 0.4); }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(230, 92, 64, 0.4);
-        }
-
-        /* ستايل شاشة الشكر المنبثقة (Popup Modal) */
+        /* شاشة الشكر */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(30, 18, 43, 0.6);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 18, 43, 0.6);
+            backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 1000;
         }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-box {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 24px;
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            border: 2px solid var(--sunset-orange);
-            transform: scale(0.8);
+            background: #ffffff; padding: 40px; border-radius: 24px; text-align: center; max-width: 450px; width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 2px solid var(--sunset-orange); transform: scale(0.8);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        .modal-icon { font-size: 50px; color: var(--sunset-glow); margin-bottom: 15px; }
+        .modal-box h2 { color: var(--sunset-dark); margin-top: 0; font-size: 22px; }
+        .modal-box p { color: #566573; font-size: 14.5px; line-height: 1.6; margin-bottom: 25px; }
+        .close-modal-btn { background: var(--sunset-dark); color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .close-modal-btn:hover { background: var(--sunset-orange); }
 
-        .modal-overlay.active .modal-box {
-            transform: scale(1);
-        }
-
-        .modal-icon {
-            font-size: 50px;
-            color: var(--sunset-glow);
-            margin-bottom: 15px;
-        }
-
-        .modal-box h2 {
-            color: var(--sunset-dark);
-            margin-top: 0;
-            font-size: 22px;
-        }
-
-        .modal-box p {
-            color: #566573;
-            font-size: 14.5px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        .close-modal-btn {
-            background: var(--sunset-dark);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .close-modal-btn:hover {
-            background: var(--sunset-orange);
-        }
-
-        @keyframes fadeInContainer {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<!-- الـ Form مربوطة بـ Formspree لشحن الداتا لإيميلك -->
-<form id="calc-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event)">
+<form id="calc-form" action="https://formspree.io/f/mjgdvpnn" method="POST" onsubmit="handleFormSubmit(event)">
     <div class="calculator-container">
-        <h1>حاسبة تخصيص الميزات والموازنة التقديرية</h1>
-        <div class="subtitle">قم بتخصيص خيارات مشروعك بدقة لرصد التكلفة الفنية الإجمالية فوراً</div>
+        <h1>حاسبة تخصيص الميزات والموازنة التفصيلية بالملي</h1>
+        <div class="subtitle">قم بتهيئة المواصفات الفنية لمشروعك لرصد تفكيك التكلفة الهندسية فورياً</div>
 
-        <!-- القسم الأول -->
-        <div class="section-title">١. واجهات التصميم وتجربة المستخدم (أساسي)</div>
+        <!-- سكشن 1: التأسيس والتصميم الداخلي -->
+        <div class="section-title">١. واجهات التصميم وتجربة المستخدم الهندسية (أساسي)</div>
         <div class="option-card selected">
             <div class="input-container">
-                <input type="checkbox" name="تصميم UI/UX" value="معتمد ومطلوب" checked id="uiux">
+                <input type="checkbox" name="تصميم_UI_UX" value="معتمد (6,000 ج.م)" checked id="uiux">
                 <div class="option-info">
-                    <h3>هندسة وتصميم واجهات المستخدم (UI/UX Design)</h3>
-                    <p>رسم المخططات الهيكلية، توزيع السكاشن، واختيار الخطوط والألوان كـ Prototype تفاعلي كاملاً.</p>
+                    <h3>هندسة وتصميم واجهات المستخدم المتقدمة (UI/UX Design)</h3>
+                    <p>تشمل: دراسة الهوية، بناء المخططات السلكية (Wireframes)، توزيع السكاشن، وتجهيز نموذج Prototype تفاعلي كامل لاعتماد الألوان والشكل قبل الكود.</p>
                 </div>
             </div>
             <div class="price-tag">6,000 ج.م</div>
         </div>
 
-        <!-- القسم الثاني -->
-        <div class="section-title">٢. البنية الهيكلية وحجم الصفحات (اختر خياراً واحداً)</div>
+        <!-- سكشن 2: الاختيار الجوهري للبنية الهيكلية للموقع -->
+        <div class="section-title">٢. البنية الهيكلية للموقع والنطاق البرمجي (اختر خياراً واحداً)</div>
         
-        <div class="option-card selected" onclick="selectRadio('بنية_الموقع', 'landing-page', this)">
+        <!-- خيار الصفحة الواحدة -->
+        <div class="option-card selected" onclick="handleStructureChange('landing')">
             <div class="input-container">
-                <input type="radio" name="بنية_الموقع" id="landing-page" checked value="صفحة واحدة طويلة (8,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <input type="radio" name="بنية_الموقع" id="radio-landing" checked value="نظام الصفحة الواحدة الممتدة (8,000 ج.م)">
                 <div class="option-info">
                     <h3>نظام الصفحة الواحدة الممتدة (Landing Page)</h3>
-                    <p>تكويد صفحات أساسية (الرئيسية بالعدادات المتحركة - من نحن - اتصل بنا) مدمجة في قالب رأسي واحد مرن وسريع.</p>
+                    <p>برمجة صفحات تجميعية (الرئيسية بـ نظام العدادات الإحصائية المتحركة - من نحن - اتصل بنا) مدمجة في قالب رأسي انسيابي ومباشر.</p>
                 </div>
             </div>
             <div class="price-tag">8,000 ج.م</div>
         </div>
 
-        <div class="option-card" onclick="selectRadio('بنية_الموقع', 'multi-page', this)">
+        <!-- خيار الصفحات المتعددة -->
+        <div class="option-card" onclick="handleStructureChange('multi')">
             <div class="input-container">
-                <input type="radio" name="بنية_الموقع" id="multi-page" value="صفحات متعددة ومنفصلة (14,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <input type="radio" name="بنية_الموقع" id="radio-multi" value="نظام الصفحات المتعددة والمنفصلة تفصيلياً">
                 <div class="option-info">
                     <h3>نظام الصفحات المتعددة والمنفصلة تفصيلياً (Multi-Pages)</h3>
-                    <p>تطوير 3 صفحات أساسية + 4 صفحات داخلية مستقلة لكل خدمة على حدة مع تفصيل وشرح القطاعات المستهدفة داخلها بالمسطرة.</p>
+                    <p>تفكيك الموقع إلى صفحات مستقلة كلياً لإبراز الثقل الاستراتيجي والمؤسسي للشركة أمام الجهات الكبرى والبنوك.</p>
                 </div>
             </div>
-            <div class="price-tag">14,000 ج.م</div>
+            <div class="price-tag">تفرعات تفصيلية بالأسفل 👇</div>
         </div>
 
-        <!-- القسم الثالث -->
+        <!-- 🔻 السكشن الديناميكي المنبثق بالتفصيل الممل في حال اختيار صفحات متعددة 🔻 -->
+        <div class="dynamic-sub-section" id="multi-pages-details">
+            <div style="font-size: 13px; font-weight: bold; color: var(--sunset-orange); margin-bottom: 10px;">التفكيك المالي والتفصيلي لنظام الصفحات المتعددة:</div>
+            
+            <div class="sub-card active">
+                <div class="option-info">
+                    <h4>برمجة القوالب والصفحات الثابتة الأساسية</h4>
+                    <p style="margin:2px 0 0 0; font-size:11.5px; color:#7f8c8d;">تشمل تطوير كود (الرئيسية بـ العدادات الحركية - صفحة من نحن - صفحة اتصل بنا بالخريطة التفاعلية).</p>
+                </div>
+                <div class="price-tag">8,000 ج.م</div>
+            </div>
+
+            <div class="sub-card active">
+                <div class="option-info">
+                    <h4>تطوير وتكويد 4 صفحات مستقلة مخصصة للخدمات</h4>
+                    <p style="margin:2px 0 0 0; font-size:11.5px; color:#7f8c8d;">إنشاء صفحة منفردة لكل خدمة (التقييم العقاري، دراسات الجدوى، أعلى وأفضل استخدام، الاستشارات) لضمان أرشفة الـ SEO.</p>
+                </div>
+                <div class="price-tag">4,000 ج.م</div>
+            </div>
+
+            <div class="sub-card active">
+                <div class="option-info">
+                    <h4>هندسة القطاعات المستهدفة وتوزيع حلولها الفنية</h4>
+                    <p style="margin:2px 0 0 0; font-size:11.5px; color:#7f8c8d;">برمجة أقسام تفصيلية مستقلة داخل كل خدمة تشرح الحلول المخصصة لـ (الجهات الحكومية، القطاع الخاص، الأفراد).</p>
+                </div>
+                <div class="price-tag">2,000 ج.م</div>
+            </div>
+        </div>
+
+        <!-- سكشن 3: النظام اللغوي -->
         <div class="section-title">٣. النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
 
         <div class="option-card selected" onclick="selectRadio('النظام_اللغوي', 'arabic-only', this)">
@@ -324,7 +312,7 @@
                 <input type="radio" name="النظام_اللغوي" id="arabic-only" checked value="لغة عربية فقط (0 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
                     <h3>الموقع بالغة العربية فقط بالكامل</h3>
-                    <p>تأسيس برمجة موحد باتجاه واحد من اليمين إلى اليسار (RTL).</p>
+                    <p>تأسيس كود برمجي موحد باتجاه واحد من اليمين إلى اليسار (RTL).</p>
                 </div>
             </div>
             <div class="price-tag">0 ج.م</div>
@@ -335,21 +323,21 @@
                 <input type="radio" name="النظام_اللغوي" id="bilingual-toggle" value="ثنائي اللغة عربي وإنجليزي (11,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
                     <h3>نظام البرمجة ثنائي اللغة الكامل (عربي / إنجليزي - زر تحويل)</h3>
-                    <p>هندسة كود الموقع وتكراره مرتين لقلب الاتجاهات بالكامل برمجياً (RTL / LTR) وضبط الخطوط والقوائم.</p>
+                    <p>هندسة كود الموقع وتكراره مرتين بالكامل لقلب وتنسيق الاتجاهات (RTL / LTR) لضمان تجربة تصفح عالمية للمستثمر الأجنبي.</p>
                 </div>
             </div>
             <div class="price-tag">+ 11,000 ج.م</div>
         </div>
 
-        <!-- القسم الرابع -->
+        <!-- سكشن 4: الإضافات الفنية والتأسيس المستقبلي -->
         <div class="section-title">٤. ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
 
         <div class="option-card" onclick="toggleCheckbox('cta', this)">
             <div class="input-container">
                 <input type="checkbox" name="ميزة_وسائل_التواصل" id="cta" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>برمجة أدوات التواصل المزدوجة والنماذج الذكية</h3>
-                    <p>بناء استمارة تواصل رسمية (Contact Form) تربط بالإيميل، مع تفعيل أزرار الربط اللحظي بالواتساب والاتصال.</p>
+                    <h3>برمجة أدوات التواصل المزدوجة والنماذج الاحترافية</h3>
+                    <p>بناء استمارة تواصل رسمية (Contact Form) تجمع بيانات طلب الاستشارة وترسلها للإيميل، مع أزرار الربط اللحظي بالواتساب والاتصال.</p>
                 </div>
             </div>
             <div class="price-tag">+ 1,500 ج.م</div>
@@ -359,8 +347,8 @@
             <div class="input-container">
                 <input type="checkbox" name="ميزة_صياغة_المحتوى" id="content" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>تحرير وصياغة المحتوى النصي تسويقياً وهندسياً</h3>
-                    <p>استخراج الداتا الفنية وكتابة المحتوى التسويقي الجاذب المتوافق والمريح لواجهات القراءة الرقمية.</p>
+                    <h3>تحرير وصياغة المحتوى النصي تسويقياً وهندسياً من قِبلنا</h3>
+                    <p>استخراج الداتا الفنية من بروفايل الشركة، وضبط جودة المصطلحات العقارية والاستثمارية لتناسب الويب الرقمي.</p>
                 </div>
             </div>
             <div class="price-tag">+ 1,500 ج.م</div>
@@ -370,8 +358,8 @@
             <div class="input-container">
                 <input type="checkbox" name="بنية_المكتبة_المستقبلية" id="scalable" value="مطلوبة (5,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
                 <div class="option-info">
-                    <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية</h3>
-                    <p>بناء كود مرن وقاعدة بيانات (Database Architecture) جاهزة ومستعدة تماماً لاستيعاب "المكتبة الرقمية المرجعية" لاحقاً.</p>
+                    <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية للموقع</h3>
+                    <p>بناء كود مرن (Clean & Scalable Code) وقاعدة بيانات مهيأة ومستعدة تماماً لاستيعاب بروجكت "المكتبة الرقمية المرجعية للتقييم" لاحقاً دون هدم الموقع.</p>
                 </div>
             </div>
             <div class="price-tag">+ 5,000 ج.م</div>
@@ -382,12 +370,11 @@
 
         <!-- العداد المالي المتوهج -->
         <div class="sticky-counter">
-            <div class="counter-label">إجمالي القيمة التقديرية للمشروع:</div>
+            <div class="counter-label">إجمالي القيمة التقديرية الهندسية للمشروع:</div>
             <div class="total-price" id="price-box"><span id="price-display">14,000</span> ج.م</div>
         </div>
 
-        <!-- زر الإرسال المحدث -->
-        <button type="submit" class="submit-btn">إرسال واعتماد وثيقة المواصفات</button>
+        <button type="submit" class="submit-btn">إرسال واعتماد وثيقة المواصفات الفنية</button>
     </div>
 </form>
 
@@ -396,12 +383,36 @@
     <div class="modal-box">
         <div class="modal-icon">✨</div>
         <h2>نشكركم على ثقتكم الغالية</h2>
-        <p>تم استلام وثيقة خياراتكم الفنية والميزانية المقترحة بنجاح بالملي.<br>يسعدنا ويشرفنا جداً التعامل معكم، وسيقوم فريق الهندسة بمراجعة الداتا المعتمدة وإرسال الـ Timeline النهائي لسيادتكم فوراً.</p>
-        <button class="close-modal-btn" onclick="closeModal()">تغليق الواجهة</button>
+        <p>تم استلام وثيقة خياراتكم الفنية ومصفوفة الميزانية المعتمدة تفصيلياً بنجاح بالملي.<br>يسعدنا ويشرفنا جداً التعامل معكم، وسيقوم فريق الهندسة بمراجعة الداتا وإرسال خطة الـ Timeline لسيادتكم فوراً.</p>
+        <button class="close-modal-btn" onclick="closeModal()">إغلاق الواجهة</button>
     </div>
 </div>
 
 <script>
+    // التحكم في السكشن المنبثق وتحديث الراديو
+    function handleStructureChange(type) {
+        const subSection = document.getElementById('multi-pages-details');
+        const radioLanding = document.getElementById('radio-landing');
+        const radioMulti = document.getElementById('radio-multi');
+        
+        // جلب كروت الأب وتظبيط الـ Selected ستايل
+        const cardLanding = radioLanding.closest('.option-card');
+        const cardMulti = radioMulti.closest('.option-card');
+
+        if(type === 'landing') {
+            radioLanding.checked = true;
+            cardLanding.classList.add('selected');
+            cardMulti.classList.remove('selected');
+            subSection.classList.remove('show'); // إخفاء التفصيل الممل
+        } else {
+            radioMulti.checked = true;
+            cardMulti.classList.add('selected');
+            cardLanding.classList.remove('selected');
+            subSection.classList.add('show'); // إظهار التفصيل الممل فورا بأنيميشن
+        }
+        updatePrice();
+    }
+
     function selectRadio(groupName, radioId, cardElement) {
         document.getElementById(radioId).checked = true;
         const radios = document.getElementsByName(groupName);
@@ -418,17 +429,28 @@
         updatePrice();
     }
 
+    // الحسبة الديناميكية المفصصة
     function updatePrice() {
-        let total = 6000; // السعر التأسيسي لـ UI/UX
+        let total = 6000; // السعر التأسيسي الثابت لـ UI/UX
         
-        if(document.getElementById('landing-page').checked) total += 8000;
-        if(document.getElementById('multi-page').checked) total += 14000;
-        if(document.getElementById('bilingual-toggle').checked) total += 11000;
+        // فحص هيكل الموقع
+        if(document.getElementById('radio-landing').checked) {
+            total += 8000; // تمن الصفحة الواحدة
+        } else if(document.getElementById('radio-multi').checked) {
+            total += 8000 + 4000 + 2000; // تمن (الأساسية + 4 خدمات + هندسة القطاعات) = 14,000 ج.م
+        }
         
+        // فحص اللغات
+        if(document.getElementById('bilingual-toggle').checked) {
+            total += 11000;
+        }
+        
+        // فحص الإضافات
         if(document.getElementById('cta').checked) total += 1500;
         if(document.getElementById('content').checked) total += 1500;
         if(document.getElementById('scalable').checked) total += 5000;
 
+        // تحديث أرقام الشاشة والـ Formspree هيدن فيلد
         document.getElementById('price-display').innerText = total.toLocaleString('en-US');
         document.getElementById('hidden-total').value = total.toLocaleString('en-US') + " ج.م";
         
@@ -437,26 +459,23 @@
         setTimeout(() => { priceBox.classList.remove('pop'); }, 150);
     }
 
-    // هندسة الإرسال للـ Form وظهور شاشة الشكر الفخمة
     function handleFormSubmit(event) {
-        event.preventDefault(); // نمنع الصفحة تفتح لينك تاني
-        
+        event.preventDefault();
         const form = document.getElementById('calc-form');
         const data = new FormData(form);
         
-        // إرسال البيانات لـ Formspree في الخلفية (AJAX)
         fetch(form.action, {
             method: form.method,
             body: data,
             headers: { 'Accept': 'application/json' }
         }).then(response => {
             if (response.ok) {
-                // فتح شاشة الشكر فورا بتأثير الأنميشن
                 document.getElementById('thank-you-modal').classList.add('active');
                 form.reset();
+                document.getElementById('multi-pages-details').classList.remove('show');
                 updatePrice();
             } else {
-                alert('عذراً، حدث خطأ أثناء الإرسال. برجاء المحاولة مرة أخرى.');
+                alert('عذراً، حدث خطأ أثناء إرسال البيانات المعتمدة. برجاء المحاولة مرة أخرى.');
             }
         });
     }
