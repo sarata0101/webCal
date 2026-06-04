@@ -6,504 +6,181 @@
     <title>تقدير ميزانية وتفاصيل المشروع</title>
     <style>
         :root {
-            --sunset-dark: #1E122B;      /* الموف العميق */
-            --sunset-orange: #E65C40;    /* البرتقالي الدافئ */
-            --sunset-red: #C0392B;       /* الأحمر الهادي */
-            --sunset-glow: #F39C12;      /* التوهج الذهبي */
+            --sunset-dark: #1E122B;
+            --sunset-orange: #E65C40;
+            --sunset-red: #C0392B;
+            --sunset-glow: #F39C12;
             --bg-gradient: linear-gradient(135deg, #FDFBF7 0%, #EAE5DC 100%);
             --text-color: #2C3E50;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-color);
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .calculator-container {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            box-shadow: 0 25px 60px rgba(30, 18, 43, 0.15);
-            width: 100%;
-            max-width: 780px;
-            padding: 45px;
-            box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            animation: fadeInContainer 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        h1 {
-            color: var(--sunset-dark);
-            font-size: 26px;
-            text-align: center;
-            margin-bottom: 8px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            font-size: 14.5px;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
-        .section-title {
-            font-size: 17px;
-            font-weight: bold;
-            color: var(--sunset-dark);
-            border-bottom: 2px solid rgba(230, 92, 64, 0.15);
-            padding-bottom: 10px;
-            margin-top: 35px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            right: 0;
-            width: 65px;
-            height: 2px;
-            background: var(--sunset-orange);
-        }
-
-        .option-card {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .option-card:hover {
-            border-color: var(--sunset-orange);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(230, 92, 64, 0.1);
-        }
-
-        .option-card.selected {
-            border-color: var(--sunset-orange);
-            background: linear-gradient(95deg, rgba(254, 245, 242, 0.7) 0%, rgba(255, 255, 255, 1) 100%);
-            box-shadow: 0 10px 25px rgba(230, 92, 64, 0.08), inset 0 0 0 1px rgba(230, 92, 64, 0.05);
-        }
-
-        .input-container {
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            width: 85%;
-        }
-
-        input[type="radio"], input[type="checkbox"] {
-            width: 19px;
-            height: 19px;
-            accent-color: var(--sunset-orange);
-            cursor: pointer;
-            flex-shrink: 0;
-            margin-top: 3px;
-        }
-
-        .option-info h3 {
-            margin: 0;
-            font-size: 15.5px;
-            color: var(--sunset-dark);
-            font-weight: 700;
-        }
-
-        .option-info p {
-            margin: 6px 0 0 0;
-            font-size: 13px;
-            color: #566573;
-            line-height: 1.6;
-        }
-
-        .price-tag {
-            font-weight: 800;
-            color: var(--sunset-red);
-            font-size: 15px;
-            white-space: nowrap;
-        }
-
-        .option-card.selected .price-tag {
-            color: var(--sunset-orange);
-        }
-
-        /* ستايل السكشن التفصيلي المطور والمنبثق بأنيميشن انسيابي فخم */
-        .dynamic-sub-section {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            padding-right: 22px;
-            border-right: 3px dashed rgba(230, 92, 64, 0.3);
-            margin-bottom: 0;
-            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease, margin 0.5s ease;
-        }
-
-        .dynamic-sub-section.show {
-            max-height: 2000px; /* مساحة أكبر لتستوعب التفصيل الممل الجديد */
-            opacity: 1;
-            margin-bottom: 25px;
-            margin-top: 12px;
-        }
-
-        .sub-card {
-            background: #ffffff;
-            border: 1px dashed #cbd5e1;
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
-            animation: slideInSubCard 0.4s ease forwards;
-        }
-
-        @keyframes slideInSubCard {
-            from { opacity: 0; transform: translateX(15px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .sub-card .option-info h4 {
-            margin: 0;
-            font-size: 14px;
-            color: var(--sunset-dark);
-            font-weight: 700;
-        }
-
-        .sub-card .option-info ul {
-            margin: 5px 0 0 0;
-            padding-right: 18px;
-            font-size: 12px;
-            color: #718096;
-            line-height: 1.6;
-        }
-
-        /* العداد المالي بتوهج الغروب */
-        .sticky-counter {
-            background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%);
-            color: #ffffff;
-            border-radius: 20px;
-            padding: 24px;
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 15px 35px rgba(30, 18, 43, 0.3);
-            border: 1px solid rgba(230, 92, 64, 0.25);
-        }
-
-        .counter-label { font-size: 16.5px; font-weight: 600; letter-spacing: 0.3px; }
-        .total-price { font-size: 30px; font-weight: 800; }
-        .total-price span { color: var(--sunset-glow); text-shadow: 0 0 12px rgba(243, 156, 18, 0.5); display: inline-block; }
-        .total-price.pop span { transform: scale(1.1); transition: transform 0.1s ease; }
-
-        .submit-btn {
-            background: linear-gradient(90deg, var(--sunset-orange) 0%, var(--sunset-red) 100%);
-            color: white; border: none; border-radius: 14px; padding: 16px 32px; font-size: 16.5px; font-weight: bold;
-            cursor: pointer; width: 100%; margin-top: 24px; box-shadow: 0 6px 18px rgba(230, 92, 64, 0.35); transition: all 0.3s ease;
-        }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(230, 92, 64, 0.45); }
-
-        /* شاشة الشكر الفصحى والبليغة */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 18, 43, 0.65);
-            backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 1000;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-gradient); color: var(--text-color); margin: 0; padding: 40px 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .calculator-container { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); border-radius: 28px; box-shadow: 0 25px 60px rgba(30, 18, 43, 0.15); width: 100%; max-width: 780px; padding: 45px; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.7); animation: fadeInContainer 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        h1 { color: var(--sunset-dark); font-size: 26px; text-align: center; margin-bottom: 8px; font-weight: 800; }
+        .subtitle { text-align: center; color: #7f8c8d; font-size: 14.5px; margin-bottom: 40px; }
+        .section-title { font-size: 17px; font-weight: bold; color: var(--sunset-dark); border-bottom: 2px solid rgba(230, 92, 64, 0.15); padding-bottom: 10px; margin-top: 35px; margin-bottom: 20px; position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -2px; right: 0; width: 65px; height: 2px; background: var(--sunset-orange); }
+        .option-card { background: #ffffff; border: 2px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.35s ease; }
+        .option-card:hover { border-color: var(--sunset-orange); transform: translateY(-3px); }
+        .option-card.selected { border-color: var(--sunset-orange); background: #fdfaf9; }
+        .input-container { display: flex; align-items: flex-start; gap: 18px; width: 85%; }
+        input[type="radio"], input[type="checkbox"] { width: 19px; height: 19px; accent-color: var(--sunset-orange); cursor: pointer; margin-top: 3px; }
+        .option-info h3 { margin: 0; font-size: 15.5px; color: var(--sunset-dark); font-weight: 700; }
+        .option-info p { margin: 6px 0 0 0; font-size: 13px; color: #566573; line-height: 1.6; }
+        .price-tag { font-weight: 800; color: var(--sunset-red); font-size: 15px; }
+        .option-card.selected .price-tag { color: var(--sunset-orange); }
+        .dynamic-sub-section { max-height: 0; overflow: hidden; opacity: 0; padding-right: 22px; border-right: 3px dashed rgba(230, 92, 64, 0.3); transition: 0.5s ease; }
+        .dynamic-sub-section.show { max-height: 2000px; opacity: 1; margin-top: 15px; margin-bottom: 25px; }
+        .sub-card { background: #ffffff; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .sticky-counter { background: linear-gradient(135deg, var(--sunset-dark) 0%, #2c1a3e 100%); color: #ffffff; border-radius: 20px; padding: 24px; margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
+        .total-price { font-size: 30px; font-weight: 800; color: var(--sunset-glow); }
+        .submit-btn { background: linear-gradient(90deg, var(--sunset-orange), var(--sunset-red)); color: white; border: none; border-radius: 14px; padding: 16px 32px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 24px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30, 18, 43, 0.6); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.4s; z-index: 1000; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-box {
-            background: #ffffff; padding: 50px; border-radius: 28px; text-align: center; max-width: 500px; width: 90%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.18); border: 2px solid var(--sunset-orange); transform: scale(0.8);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .modal-overlay.active .modal-box { transform: scale(1); }
-        .modal-icon { font-size: 60px; color: var(--sunset-glow); margin-bottom: 20px; }
-        
-        .modal-box h2 { color: var(--sunset-dark); margin-top: 0; font-size: 24px; font-weight: bold; }
-        .modal-box p { color: #4A5568; font-size: 15px; line-height: 1.8; margin-bottom: 32px; }
-        .close-modal-btn { 
-            background: var(--sunset-dark); color: white; border: none; padding: 12px 35px; border-radius: 12px; 
-            cursor: pointer; font-weight: bold; font-size: 15px; box-shadow: 0 5px 12px rgba(30, 18, 43, 0.2); transition: background 0.2s;
-        }
-        .close-modal-btn:hover { background: var(--sunset-orange); }
-
-        @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-box { background: #ffffff; padding: 40px; border-radius: 24px; text-align: center; max-width: 450px; }
     </style>
 </head>
 <body>
 
 <form id="calc-form" action="https://formspree.io/f/mjgdvpnn" method="POST" onsubmit="handleFormSubmit(event)">
     <div class="calculator-container">
-        <div class="calculator-container">
-            <h1>تقدير ميزانية وتفاصيل المشروع</h1>
-            <div class="subtitle">قم بتخصيص ميزات مشروعك بدقة لرصد التكلفة التقديرية فوراً</div>
+        <h1>تقدير ميزانية وتفاصيل المشروع</h1>
+        <div class="subtitle">قم بتخصيص ميزات مشروعك بدقة لرصد التكلفة التقديرية فوراً</div>
 
-        <!-- سكشن 1: التأسيس والتصميم الداخلي -->
-        <div class="section-title">١. واجهات التصميم وتجربة المستخدم الهندسية (أساسي)</div>
+        <div class="section-title">١. الأساسيات البرمجية والتصميمية</div>
         <div class="option-card selected">
             <div class="input-container">
-                <input type="checkbox" name="تصميم_UI_UX" value="معتمد (6,000 ج.م)" checked id="uiux">
+                <input type="checkbox" name="UI_UX" value="10000" checked onclick="return false;">
                 <div class="option-info">
-                    <h3>هندسة وتصميم واجهات المستخدم المتقدمة (UI/UX Design)</h3>
-                    <p>تشمل: دراسة الهوية الاستثمارية، بناء المخططات السلكية والدراسة التحليلية لتوزيع العناصر والأرقام والعدادات الإحصائية الكبرى، مع إعداد لوحات الرسوم النموذجية بالكامل (Interactive Prototype) لاعتماد المظهر الهندسي الفخم للألوان والخطوط قبل البدء في الكود.</p>
+                    <h3>تصميم واجهات المستخدم (UI/UX)</h3>
+                    <p>دراسة الهوية البصرية، المخططات الهيكلية، والنماذج التفاعلية.</p>
                 </div>
             </div>
-            <div class="price-tag">6,000 ج.م</div>
+            <div class="price-tag">10,000 ج.م</div>
+        </div>
+        <div class="option-card selected">
+            <div class="input-container">
+                <input type="checkbox" name="Base_Dev" value="15000" checked onclick="return false;">
+                <div class="option-info">
+                    <h3>برمجة القوالب والصفحات الأساسية</h3>
+                    <p>النواة البرمجية للموقع، الصفحة الرئيسية، والعدادات الحركية.</p>
+                </div>
+            </div>
+            <div class="price-tag">15,000 ج.م</div>
         </div>
 
-        <!-- سكشن 2: الاختيار الجوهري للبنية الهيكلية للموقع -->
-        <div class="section-title">٢. البنية الهيكلية للموقع والنطاق البرمجي (اختر خياراً واحداً)</div>
-        
-        <!-- خيار الصفحة الواحدة -->
-        <div class="option-card selected" onclick="handleStructureChange('landing')">
+        <div class="section-title">٢. نطاق العمل (اختر هيكلية الموقع)</div>
+        <div class="option-card selected" onclick="toggleStructure('landing')">
             <div class="input-container">
-                <input type="radio" name="بنية_الموقع" id="radio-landing" checked value="نظام الصفحة الواحدة الممتدة (8,000 ج.م)">
+                <input type="radio" name="Structure" id="landing" checked value="8000">
                 <div class="option-info">
-                    <h3>نظام الصفحة الواحدة الممتدة والانسيابية (Landing Page)</h3>
-                    <p>برمجة وتكويد صفحات تجميعية رصينة (الواجهة الرئيسية التفاعلية، الملخص التعريفي للشركة، وقنوات الاتصال السريع) مدمجة في قالب رأسي موحد ذي استجابة مرنة وسريعة تخدم التصفح المباشر.</p>
+                    <h3>نظام الصفحة الواحدة (Landing Page)</h3>
+                    <p>قالب رأسي انسيابي ومباشر للمحتوى الأساسي.</p>
                 </div>
             </div>
             <div class="price-tag">8,000 ج.م</div>
         </div>
-
-        <!-- خيار الصفحات المتعددة -->
-        <div class="option-card" onclick="handleStructureChange('multi')">
+        <div class="option-card" onclick="toggleStructure('multi')">
             <div class="input-container">
-                <input type="radio" name="بنية_الموقع" id="radio-multi" value="نظام الصفحات المتعددة والمنفصلة تفصيلياً">
+                <input type="radio" name="Structure" id="multi" value="16000">
                 <div class="option-info">
-                    <h3>نظام الصفحات المتعددة والمنفصلة كلياً (Multi-Pages System)</h3>
-                    <p>تفكيك وهندسة الموقع إلى صفحات مستقلة وممتدة لإبراز الثقل المؤسسي والحجم الاستراتيجي الضخم للشركة أمام البنوك والجهات الرسمية.</p>
+                    <h3>نظام الصفحات المتعددة (Multi-Pages)</h3>
+                    <p>تفكيك الموقع لخدمات وقطاعات مستقلة كلياً.</p>
                 </div>
             </div>
-            <div class="price-tag">تفرعات تفصيلية بالأسفل 👇</div>
+            <div class="price-tag">تفرعات 👇</div>
         </div>
 
-        <!-- 🔻 السكشن الديناميكي المنبثق بالتفصيل الممل والعميق لخدمات وقطاعات الشركة 🔻 -->
-        <div class="dynamic-sub-section" id="multi-pages-details">
-            <div style="font-size: 13.5px; font-weight: bold; color: var(--sunset-orange); margin-bottom: 12px; letter-spacing: 0.3px;">التفكيك الهيكلي والمالي المفصل لنظام الصفحات المستقلة:</div>
-            
+        <div class="dynamic-sub-section" id="multi-details">
             <div class="sub-card">
-                <div class="option-info">
-                    <h4>برمجة القوالب والصفحات الثابتة الأساسية للشركة</h4>
-                    <p style="margin:4px 0 0 0; font-size:12px; color:#7f8c8d; line-height:1.5;">تشمل تطوير الأكواد البرمجية الفاخرة لـ (الواجهة الرئيسية الكبرى مدعومة بنظام العدادات الإحصائية الحركية للأرقام المليارية وعقود التقييم، صفحة من نحن المخصصة للرؤية والرسالة والقيم الاعتبارية، وصفحة اتصل بنا المدمجة بالخرائط الرقمية التفاعلية).</p>
-                </div>
-                <div class="price-tag">8,000 ج.م</div>
+                <div class="option-info"><h4>برمجة صفحات الخدمات (4 صفحات)</h4></div>
+                <div class="price-tag">10,000 ج.م</div>
             </div>
-
             <div class="sub-card">
-                <div class="option-info">
-                    <h4>تطوير وتكويد أربع (4) صفحات مستقلة مخصصة للخدمات الكبرى</h4>
-                    <p style="margin:4px 0 0 0; font-size:12px; color:#7f8c8d; line-height:1.5;">تأسيس صفحة منفردة معزولة لكل خدمة من خدمات الشركة لضمان أرشفة بروفيشينال وعالية المتانة على محركات البحث (SEO)، وهي:</p>
-                    <ul style="margin-top:4px;">
-                        <li>صفحة خدمة التقييم العقاري (وتشمل تفصيص أصول العقارات السكنية، التجارية، الاستثمارية، الصناعية، والزراعية).</li>
-                        <li>صفحة خدمة دراسات الجدوى العقارية المتكاملة (المالية والاقتصادية).</li>
-                        <li>صفحة خدمة دراسات أعلى وأفضل استخدام للأصل العقاري لتعظيم القيمة.</li>
-                        <li>صفحة خدمة الاستشارات والتحليلات العقارية ومؤشرات السوق.</li>
-                    </ul>
-                </div>
-                <div class="price-tag">4,000 ج.م</div>
-            </div>
-
-            <div class="sub-card">
-                <div class="option-info">
-                    <h4>هندسة القطاعات المستهدفة وتوزيع حلولها الفنية التابعة للخدمات</h4>
-                    <p style="margin:4px 0 0 0; font-size:12px; color:#7f8c8d; line-height:1.5;">توزيع وبرمجة أقسام متفرعة دقيقة داخل "كل خدمة من الخدمات الأربعة أعلاه" تستعرض بشكل فني ومفصل الحلول والآليات الموجهة لكل قطاع من القطاعات الثلاثة الكبرى بالشركة:</p>
-                    <ul style="margin-top:4px;">
-                        <li>حلول ومخرجات القطاع الحكومي وشبه الحكومي (المعاينات ونزع الملكية للمنفعة العامة).</li>
-                        <li>حلول وآليات القطاع الخاص، المؤسسات التمويلية، والبنوك المعتمدة.</li>
-                        <li>حلول وأدوات قطاع الأفراد، الشركات التطويرية، والمستثمرين.</li>
-                    </ul>
-                </div>
-                <div class="price-tag">2,000 ج.م</div>
+                <div class="option-info"><h4>هندسة القطاعات والحلول الفنية</h4></div>
+                <div class="price-tag">6,000 ج.م</div>
             </div>
         </div>
 
-        <!-- سكشن 3: النظام اللغوي -->
-        <div class="section-title">٣. النظام اللغوي والمحاذاة البرمجية (اختر خياراً واحداً)</div>
-
-        <div class="option-card selected" onclick="selectRadio('النظام_اللغوي', 'arabic-only', this)">
+        <div class="section-title">٣. النظام اللغوي</div>
+        <div class="option-card" onclick="toggleLang(true)">
             <div class="input-container">
-                <input type="radio" name="النظام_اللغوي" id="arabic-only" checked value="لغة عربية فقط (0 ج.م)" onclick="event.stopPropagation(); updatePrice();">
+                <input type="radio" name="Lang" id="bilingual" value="25000">
                 <div class="option-info">
-                    <h3>الموقع باللغة العربية فقط بالكامل</h3>
-                    <p>تأسيس كود برمجي موحد ومستقر باتجاه واحد من اليمين إلى اليسار (RTLLayout) يدعم سلاسة القراءة العربية.</p>
+                    <h3>النظام ثنائي اللغة (عربي / إنجليزي)</h3>
+                    <p>بناء برمجتين كاملتين مع قلب اتجاهات التصفح بالكامل.</p>
                 </div>
             </div>
-            <div class="price-tag">0 ج.م</div>
+            <div class="price-tag">25,000 ج.م</div>
         </div>
 
-        <div class="option-card" onclick="selectRadio('النظام_اللغوي', 'bilingual-toggle', this)">
-            <div class="input-container">
-                <input type="radio" name="النظام_اللغوي" id="bilingual-toggle" value="ثنائي اللغة عربي وإنجليزي (11,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
-                <div class="option-info">
-                    <h3>نظام البرمجة ثنائي اللغة الكامل (عربي / إنجليزي - زر تحويل متكامل)</h3>
-                    <p>هندسة وتكويد الموقع بالكامل مرتين منفصلتين لبناء ميزة قلب وتنسيق اتجاهات القوالب والتصميم برمجياً (RTL & LTR) مع ضبط تباعد القوائم، ومرونة الأزرار وأحجام الخطوط بما يتلاءم مع ثقافة المستثمر الأجنبي والجهات الدولية.</p>
-                </div>
-            </div>
-            <div class="price-tag">+ 11,000 ج.م</div>
+        <div class="section-title">٤. ميزات إضافية</div>
+        <div class="option-card" onclick="toggleCheckbox('cta', 3000)">
+            <input type="checkbox" id="cta" value="3000">
+            <div class="option-info"><h3>أدوات التواصل الذكية (واتساب/نماذج)</h3></div>
+            <div class="price-tag">3,000 ج.م</div>
+        </div>
+        <div class="option-card" onclick="toggleCheckbox('content', 3000)">
+            <input type="checkbox" id="content" value="3000">
+            <div class="option-info"><h3>صياغة وتحرير المحتوى تسويقياً</h3></div>
+            <div class="price-tag">3,000 ج.م</div>
+        </div>
+        <div class="option-card" onclick="toggleCheckbox('scalable', 4000)">
+            <input type="checkbox" id="scalable" value="4000">
+            <div class="option-info"><h3>بنية تحتية للمكتبة الرقمية مستقبلاً</h3></div>
+            <div class="price-tag">4,000 ج.م</div>
         </div>
 
-        <!-- سكشن 4: الإضافات الفنية والتأسيس المستقبلي -->
-        <div class="section-title">٤. ميزات ووظائف إضافية تكميلية (إضافات اختيارية)</div>
-
-        <div class="option-card" onclick="toggleCheckbox('cta', this)">
-            <div class="input-container">
-                <input type="checkbox" name="ميزة_وسائل_التواصل" id="cta" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
-                <div class="option-info">
-                    <h3>برمجة أدوات التواصل المزدوجة والنماذج الاحترافية المتقدمة</h3>
-                    <p>بناء استمارة تواصل رسمية رقمية (Contact Form) لجمع واستقبال بيانات طلبات الاستشارات والتقييم العقاري وشحنها مباشرة للبريد الإلكتروني للشركة، بالتوازي مع تطوير أزرار الربط اللحظي السريع وتفعيل الاتصال المباشر والواتساب بنقرة واحدة.</p>
-                </div>
-            </div>
-            <div class="price-tag">+ 1,500 ج.م</div>
-        </div>
-
-        <div class="option-card" onclick="toggleCheckbox('content', this)">
-            <div class="input-container">
-                <input type="checkbox" name="ميزة_صياغة_المحتوى" id="content" value="مطلوبة (1,500 ج.م)" onclick="event.stopPropagation(); updatePrice();">
-                <div class="option-info">
-                    <h3>تحرير وصياغة المحتوى النصي تسويقياً وهندسياً من قِبلنا</h3>
-                    <p>استخراج الداتا الاستثمارية والفنية الكبرى من بروفايل الشركة الحالي، وإعادة تحريرها وصياغة عناوينها الفرعية وجملها الجاذبة للبنوك والمستثمرين لتلائم متطلبات واجهات القراءة الرقمية للمواقع.</p>
-                </div>
-            </div>
-            <div class="price-tag">+ 1,500 ج.م</div>
-        </div>
-
-        <div class="option-card" onclick="toggleCheckbox('scalable', this)">
-            <div class="input-container">
-                <input type="checkbox" name="بنية_المكتبة_المستقبلية" id="scalable" value="مطلوبة (5,000 ج.م)" onclick="event.stopPropagation(); updatePrice();">
-                <div class="option-info">
-                    <h3>التأسيس التقني المتقدم للبنية التحتية المستقبلية للموقع (Scalable Architecture)</h3>
-                    <p>بناء كود برمجي منظم ومستقر (Clean Code) مع هيكلة احترافية لقاعدة البيانات (Database Architecture) ليكون الموقع مهيأ ومستعداً تماماً من الناحية الهندسية لاستيعاب وربط بروجكت "المكتبة الرقمية المرجعية للتقييم العقاري" في المرحلة اللاحقة، دون الحاجة لهدم أو إعادة برمجة كود الموقع الحالي.</p>
-                </div>
-            </div>
-            <div class="price-tag">+ 5,000 ج.م</div>
-        </div>
-
-        <!-- حقل مخفي لإرسال المجموع النهائي جوه الإيميل -->
-        <input type="hidden" name="إجمالي_التكلفة_النهائية" id="hidden-total" value="14,000 ج.م">
-
-        <!-- العداد المالي المتوهج -->
         <div class="sticky-counter">
-            <div class="counter-label">إجمالي القيمة التقديرية الهندسية للمشروع:</div>
-            <div class="total-price" id="price-box"><span id="price-display">14,000</span> ج.م</div>
+            <div class="counter-label">إجمالي القيمة التقديرية:</div>
+            <div class="total-price"><span id="price-display">33,000</span> ج.م</div>
         </div>
 
-        <button type="submit" class="submit-btn">إرسال واعتماد وثيقة المواصفات الفنية</button>
+        <button type="submit" class="submit-btn">إرسال واعتماد وثيقة المواصفات</button>
     </div>
 </form>
 
 <div class="modal-overlay" id="thank-you-modal">
     <div class="modal-box">
-        <div class="modal-icon">✨</div>
         <h2>شكرًا لثقتكم الغالية</h2>
-        <p>تم استلام خياراتكم الفنية والميزانية المقترحة بنجاح.<br><br>يسعدنا جدًا التعاون معكم، وسنقوم بمراجعة كافة التفاصيل وإرسال الجدول الزمني النهائي لسيادتكم في أقرب وقت.</p>
-        <button class="close-modal-btn" onclick="closeModal()">إغلاق الواجهة</button>
+        <p>تم استلام خياراتكم الفنية والميزانية المقترحة بنجاح. يسعدنا التعاون معكم، وسنرسل الجدول الزمني في أقرب وقت.</p>
+        <button class="submit-btn" onclick="document.getElementById('thank-you-modal').classList.remove('active')">إغلاق</button>
     </div>
 </div>
 
 <script>
-    function handleStructureChange(type) {
-        const subSection = document.getElementById('multi-pages-details');
-        const radioLanding = document.getElementById('radio-landing');
-        const radioMulti = document.getElementById('radio-multi');
-        
-        const cardLanding = radioLanding.closest('.option-card');
-        const cardMulti = radioMulti.closest('.option-card');
-
-        if(type === 'landing') {
-            radioLanding.checked = true;
-            cardLanding.classList.add('selected');
-            cardMulti.classList.remove('selected');
-            subSection.classList.remove('show');
-        } else {
-            radioMulti.checked = true;
-            cardMulti.classList.add('selected');
-            cardLanding.classList.remove('selected');
-            subSection.classList.add('show');
-        }
-        updatePrice();
-    }
-
-    function selectRadio(groupName, radioId, cardElement) {
-        document.getElementById(radioId).checked = true;
-        const radios = document.getElementsByName(groupName);
-        radios.forEach(r => r.closest('.option-card').classList.remove('selected'));
-        cardElement.classList.add('selected');
-        updatePrice();
-    }
-
-    function toggleCheckbox(id, cardElement) {
-        const checkbox = document.getElementById(id);
-        checkbox.checked = !checkbox.checked;
-        if(checkbox.checked) cardElement.classList.add('selected');
-        else cardElement.classList.remove('selected');
-        updatePrice();
-    }
-
     function updatePrice() {
-        let total = 6000;
-        
-        if(document.getElementById('radio-landing').checked) {
-            total += 8000;
-        } else if(document.getElementById('radio-multi').checked) {
-            total += 8000 + 4000 + 2000;
-        }
-        
-        if(document.getElementById('bilingual-toggle').checked) {
-            total += 11000;
-        }
-        
-        if(document.getElementById('cta').checked) total += 1500;
-        if(document.getElementById('content').checked) total += 1500;
-        if(document.getElementById('scalable').checked) total += 5000;
-
-        document.getElementById('price-display').innerText = total.toLocaleString('en-US');
-        document.getElementById('hidden-total').value = total.toLocaleString('en-US') + " ج.م";
-        
-        const priceBox = document.getElementById('price-box');
-        priceBox.classList.add('pop');
-        setTimeout(() => { priceBox.classList.remove('pop'); }, 150);
+        let total = 25000; // 10k + 15k
+        if(document.getElementById('multi').checked) total += 16000;
+        else total += 8000;
+        if(document.getElementById('bilingual').checked) total += 25000;
+        if(document.getElementById('cta').checked) total += 3000;
+        if(document.getElementById('content').checked) total += 3000;
+        if(document.getElementById('scalable').checked) total += 4000;
+        document.getElementById('price-display').innerText = total.toLocaleString();
     }
 
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        const form = document.getElementById('calc-form');
-        const data = new FormData(form);
-        
-        fetch(form.action, {
-            method: form.method,
-            body: data,
-            headers: { 'Accept': 'application/json' }
-        }).then(response => {
-            if (response.ok) {
-                document.getElementById('thank-you-modal').classList.add('active');
-                form.reset();
-                document.getElementById('multi-pages-details').classList.remove('show');
-                updatePrice();
-            } else {
-                alert('عذراً، حدث خطأ أثناء إرسال البيانات المعتمدة. برجاء المحاولة مرة أخرى.');
-            }
-        });
+    function toggleStructure(type) {
+        if(type === 'multi') { document.getElementById('multi').checked = true; document.getElementById('multi-details').classList.add('show'); }
+        else { document.getElementById('landing').checked = true; document.getElementById('multi-details').classList.remove('show'); }
+        updatePrice();
     }
 
-    function closeModal() {
-        document.getElementById('thank-you-modal').classList.remove('active');
+    function toggleLang(isBilingual) {
+        document.getElementById('bilingual').checked = isBilingual;
+        updatePrice();
+    }
+
+    function toggleCheckbox(id, val) {
+        const el = document.getElementById(id);
+        el.checked = !el.checked;
+        el.closest('.option-card').classList.toggle('selected');
+        updatePrice();
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        document.getElementById('thank-you-modal').classList.add('active');
     }
 </script>
 
